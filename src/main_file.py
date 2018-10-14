@@ -13,8 +13,8 @@ import pyautogui
 # from okay import ok_crop
 # from direction import dir_crop
 
-os.chdir("/home/fuad/Desktop/Hand-Gesture-Recognition-for-Presentation-Process-in-Python")
-right_h1_cascade=cv2.CascadeClassifier('rpalm.xml') # right palm
+#os.chdir("/home/gesentation/src/haarCascades")
+right_h1_cascade=cv2.CascadeClassifier('./haarCascades/rpalm.xml') # right palm
 #hand_cascade = cv2.CascadeClassifier('heppu_handa.xml')
 #left_h1_cascade=cv2.CascadeClassifier('lpalm.xml') #left palm
 #right_cascade=cv2.CascadeClassifier('right.xml') #right direction
@@ -23,8 +23,8 @@ right_h1_cascade=cv2.CascadeClassifier('rpalm.xml') # right palm
 #okay_cascade = cv2.CascadeClassifier('ok.xml') # okay sign
 #point_cascade = cv2.CascadeClassifier('point1.xml')
 #fin_cascade=cv2.CascadeClassifier('fin_2.xml') 
-hand_left_to_right_cascade = cv2.CascadeClassifier('heppu_handb.xml')
-hand_right_to_left_cascade = cv2.CascadeClassifier('heppu_hands.xml')
+hand_left_to_right_cascade = cv2.CascadeClassifier('./haarCascades/heppu_handb.xml')
+hand_right_to_left_cascade = cv2.CascadeClassifier('./haarCascades/heppu_hands.xml')
 #fist_cascade=cv2.CascadeClassifier('aGest.xml') # fist
 #thumbdown_cascade = cv2.CascadeClassifier('thumbdown.xml')
 cap = cv2.VideoCapture(0)
