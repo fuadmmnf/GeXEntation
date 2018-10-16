@@ -86,11 +86,12 @@ class labelClickable(QDialog):
 
         self.hidden_button = QtWidgets.QPushButton('', self)
         self.hidden_button.setCursor(Qt.PointingHandCursor)
+        self.hidden_button.setToolTip("1st Gesture")
         self.hidden_button.setIcon(QtGui.QIcon('1.png'))
         self.hidden_button.setIconSize(QtCore.QSize(120, 130))
         self.hidden_button.setGeometry(50, 40, 120, 130)
         self.hidden_button.setStyleSheet(
-            "QPushButton{background-color: transparent; border-style:outset; border-width:0px;}::hover{"
+            "QPushButton{background-color: transparent; border-style:outset; border-radius: 4px; border-width:0px;}::hover{"
             "background-color:white}::pressed{background-color: cyan}")
 
 
@@ -102,7 +103,7 @@ class labelClickable(QDialog):
         self.hidden_button2.setIconSize(QtCore.QSize(120, 130))
         self.hidden_button2.setGeometry(180,40, 120, 130)
         self.hidden_button2.setStyleSheet(
-            "QPushButton{background-color: transparent; border-style:outset; border-width:0px;}::hover{"
+            "QPushButton{background-color: transparent; border-style:outset;border-radius: 4px; border-width:0px;}::hover{"
             "background-color:white}::pressed{background-color: cyan}")
 
         self.hidden_button2.clicked.connect(self.manual_2)
@@ -113,7 +114,7 @@ class labelClickable(QDialog):
         self.hidden_button3.setIconSize(QtCore.QSize(120, 130))
         self.hidden_button3.setGeometry(50, 180, 120, 130)
         self.hidden_button3.setStyleSheet(
-            "QPushButton{background-color: transparent; border-style:outset; border-width:0px;}::hover{"
+            "QPushButton{background-color: transparent; border-style:outset;border-radius: 4px; border-width:0px;}::hover{"
             "background-color:white}::pressed{background-color: cyan}")
 
         self.hidden_button3.clicked.connect(self.manual_3)
@@ -124,7 +125,7 @@ class labelClickable(QDialog):
         self.hidden_button4.setIconSize(QtCore.QSize(120, 130))
         self.hidden_button4.setGeometry(180, 180, 120, 130)
         self.hidden_button4.setStyleSheet(
-            "QPushButton{background-color: transparent; border-style:outset; border-width:0px;}::hover{"
+            "QPushButton{background-color: transparent; border-style:outset;border-radius: 4px; border-width:0px;}::hover{"
             "background-color:white}::pressed{background-color: cyan}")
 
         self.hidden_button4.clicked.connect(self.manual_4)
@@ -167,9 +168,15 @@ class labelClickable(QDialog):
         menu.addAction('lasagna',self.Clic)
 
         self.hidden_button.setStyleSheet(
-            "QPushButton{border-style:outset; border-width:0px;}::menu-indicator{ image: none; }::pressed{background-color:cyan}")
+            "QPushButton{border-style:inset; border-width:0px;}"
+            "::hover{"
+            "background-color:white}"
+            "::menu-indicator{ image: none; }::pressed{background-color:cyan}")
 
-        self.hidden_button.setMenu(menu)
+        panelPos = QtCore.QPoint(self.hidden_button.pos().x() - 100, self.hidden_button.pos().y())
+        menu.setStyleSheet("QMenu{background-color:#00FFF7;border-radius:5px; height:130px   }")
+        action=menu.exec_(self.mapToGlobal(panelPos))
+        #self.hidden_button.setMenu(menu)
 
     def manual_2(self):
         menu = QtWidgets.QMenu()
@@ -178,9 +185,16 @@ class labelClickable(QDialog):
         menu.addAction('lasagna2', self.Clic)
 
         self.hidden_button2.setStyleSheet(
-            "QPushButton{border-style:outset; border-width:0px;}::menu-indicator{ image: none; }::pressed{background-color:cyan}")
+            "QPushButton{border-style:outset; border-width:0px;}::hover{"
+            "background-color:white}"
+            "::menu-indicator{ image: none; }::pressed{background-color:cyan}")
 
-        self.hidden_button2.setMenu(menu)
+        panelPos = QtCore.QPoint(self.hidden_button2.pos().x() - 110, self.hidden_button2.pos().y())
+        menu.setStyleSheet("QMenu{background-color:#00FFF7;border-radius:5px; height:130px }")
+
+        action = menu.exec_(self.mapToGlobal(panelPos))
+
+
 
     def manual_3(self):
         menu = QtWidgets.QMenu()
@@ -189,9 +203,14 @@ class labelClickable(QDialog):
         menu.addAction('lasagna3', self.Clic)
 
         self.hidden_button3.setStyleSheet(
-            "QPushButton{border-style:outset; border-width:0px;}::menu-indicator{ image: none; }::pressed{background-color:cyan}")
+            "QPushButton{border-style:outset; border-width:0px;}"
+            "::hover{"
+            "background-color:white}::menu-indicator{ image: none; }::pressed{background-color:cyan}")
 
-        self.hidden_button3.setMenu(menu)
+        menu.setStyleSheet("QMenu{background-color:#00FFF7;border-radius:5px; height:130px }")
+        panelPos = QtCore.QPoint(self.hidden_button3.pos().x() - 100, self.hidden_button3.pos().y())
+
+        action = menu.exec_(self.mapToGlobal(panelPos))
 
     def manual_4(self):
         menu = QtWidgets.QMenu()
@@ -200,10 +219,14 @@ class labelClickable(QDialog):
         menu.addAction('lasagna4', self.Clic)
 
         self.hidden_button4.setStyleSheet(
-            "QPushButton{border-style:outset; border-width:0px;}::menu-indicator{ image: none; }::pressed{background-color:cyan}")
+            "QPushButton{border-style:outset; border-width:0px;}::hover{"
+            "background-color:white}"
+            "::menu-indicator{ image: none; }::pressed{background-color:cyan}")
 
-        self.hidden_button4.setMenu(menu)
+        menu.setStyleSheet("QMenu{background-color:#00FFF7;border-radius:5px; height:130px }")
+        panelPos = QtCore.QPoint(self.hidden_button4.pos().x() - 100, self.hidden_button4.pos().y())
 
+        action=menu.exec_(self.mapToGlobal(panelPos))
 
     def app_supported(self):
         file=open('app.txt','r+')
