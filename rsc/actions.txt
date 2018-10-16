@@ -1,0 +1,11 @@
+left_mouse click
+right_mouse click
+middle_mouse click
+scroll_up
+scroll_down
+horizontal scroll_up
+horizontal scroll_down
+page_up
+page_down
+zoom_in
+zoom_out
