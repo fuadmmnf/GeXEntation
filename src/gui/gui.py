@@ -125,7 +125,7 @@ class labelClickable(QDialog):
         menu.setStyleSheet("QMenu{menu-scrollable: 1;background-color:#00FFF7;border-radius:5px; "
                            "overflow:auto;width:140px}")
 
-        file=open('actions.txt','r+')
+        file=open('../../rsc/actions.txt','r+')
         temp=file.read()
         lines=temp.split("\n")
         for line in lines:
@@ -147,6 +147,7 @@ class labelClickable(QDialog):
         #self.hidden_button.setMenu(menu)
 
     def manual_2(self):
+        
         menu = QtWidgets.QMenu()
         menu.addAction('hmmm2', self.Clic)
         menu.addAction('bitch2', self.Clic)
