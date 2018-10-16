@@ -72,7 +72,7 @@ class labelClickable(QDialog):
         self.hidden_button = QtWidgets.QPushButton('', self)
         self.hidden_button.setCursor(Qt.PointingHandCursor)
         self.hidden_button.setToolTip("1st Gesture")
-        self.hidden_button.setIcon(QtGui.QIcon('1.png'))
+        self.hidden_button.setIcon(QtGui.QIcon('hand.jpg'))
         self.hidden_button.setIconSize(QtCore.QSize(120, 130))
         self.hidden_button.setGeometry(50, 40, 120, 130)
         self.hidden_button.setStyleSheet(
@@ -84,7 +84,7 @@ class labelClickable(QDialog):
 
         self.hidden_button2 = QtWidgets.QPushButton('', self)
         self.hidden_button2.setCursor(Qt.PointingHandCursor)
-        self.hidden_button2.setIcon(QtGui.QIcon('2.png'))
+        self.hidden_button2.setIcon(QtGui.QIcon('fist.jpg'))
         self.hidden_button2.setIconSize(QtCore.QSize(120, 130))
         self.hidden_button2.setGeometry(180,40, 120, 130)
         self.hidden_button2.setStyleSheet(
@@ -95,7 +95,7 @@ class labelClickable(QDialog):
 
         self.hidden_button3 = QtWidgets.QPushButton('', self)
         self.hidden_button3.setCursor(Qt.PointingHandCursor)
-        self.hidden_button3.setIcon(QtGui.QIcon('3.png'))
+        self.hidden_button3.setIcon(QtGui.QIcon('thumbDown.jpg'))
         self.hidden_button3.setIconSize(QtCore.QSize(120, 130))
         self.hidden_button3.setGeometry(50, 180, 120, 130)
         self.hidden_button3.setStyleSheet(
@@ -106,7 +106,7 @@ class labelClickable(QDialog):
 
         self.hidden_button4 = QtWidgets.QPushButton('', self)
         self.hidden_button4.setCursor(Qt.PointingHandCursor)
-        self.hidden_button4.setIcon(QtGui.QIcon('4.png'))
+        self.hidden_button4.setIcon(QtGui.QIcon('loser1.jpg'))
         self.hidden_button4.setIconSize(QtCore.QSize(120, 130))
         self.hidden_button4.setGeometry(180, 180, 120, 130)
         self.hidden_button4.setStyleSheet(
