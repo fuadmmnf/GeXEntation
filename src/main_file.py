@@ -16,7 +16,7 @@ import pyautogui
 
 
 
-#os.chdir("/home/gesentation/src/haarCascades")
+#haar cascades initializatoin
 right_h1_cascade=cv2.CascadeClassifier('../rsc/haar_cascades/rpalm.xml') # right palm
 #hand_cascade = cv2.CascadeClassifier('heppu_handa.xml')
 #left_h1_cascade=cv2.CascadeClassifier('./haarCascades/lpalm.xml') #left palm
@@ -31,13 +31,25 @@ point_cascade = cv2.CascadeClassifier('../rsc/haar_cascades/point1.xml')
 fist_cascade=cv2.CascadeClassifier('../rsc/haar_cascades/fist.xml') # fist
 thumbdown_cascade = cv2.CascadeClassifier('../rsc/haar_cascades/thumbdown.xml')
 
+#--------------------------------------------
+
+
+
+# the list of applications from txt file
+applicationList = list()
+
+with open('../rsc/applications.txt') as fp:
+    for line in fp:
+        applicationList.append(line)
 
 
 
 
 
+
+
+# gesture detection code
 cap = cv2.VideoCapture(0)
-ca=0
 start_time = -1 
 finish_time = 0
 while(1):   
@@ -98,7 +110,9 @@ while(1):
 
 
                 
-        
+cap.release()    
 cv2.destroyAllWindows()
+
+#----------------------------
 
     
