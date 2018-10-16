@@ -34,12 +34,17 @@ thumbdown_cascade = cv2.CascadeClassifier('../rsc/haar_cascades/thumbdown.xml')
 #--------------------------------------------
 
 
+os.system('ls /usr/share/applications > ../rsc/applications.txt')
+
+
 
 # the list of applications from txt file
 applicationList = list()
 
 with open('../rsc/applications.txt') as fp:
     for line in fp:
+        line = line.replace('.desktop', '')
+        #print(line)
         applicationList.append(line)
 
 
@@ -67,10 +72,11 @@ while(1):
         if(start_time==-1 or finish_time-start_time>=0.5):
         
                 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-                #point=point_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,80))
-                point = point_cascade.detectMultiScale(gray,1.1,5)
+                
+                #point = point_cascade.detectMultiScale(gray,1.1,5)
                 #fin=fin_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5,flags=0, minSize=(100,80))
                 right_palm = right_h1_cascade.detectMultiScale(gray,1.1, 5)
+                point=point_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,80))
                 #hand = hand_cascade.detectMultiScale(gray,1.1, 5)
                 #LtoR=hand_left_to_right_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
                 #RtoL=hand_right_to_left_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
