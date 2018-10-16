@@ -120,7 +120,7 @@ class labelClickable(QDialog):
 
         self.hidden_button4 = QtWidgets.QPushButton('', self)
         self.hidden_button4.setCursor(Qt.PointingHandCursor)
-        self.hidden_button4.setIcon(QtGui.QIcon('3.png'))
+        self.hidden_button4.setIcon(QtGui.QIcon('4.png'))
         self.hidden_button4.setIconSize(QtCore.QSize(120, 130))
         self.hidden_button4.setGeometry(180, 180, 120, 130)
         self.hidden_button4.setStyleSheet(
