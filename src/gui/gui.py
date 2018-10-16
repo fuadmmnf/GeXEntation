@@ -1,23 +1,11 @@
-# -*- coding: utf-8 -*-
-# ----------------------------------------------------------------------------
-# Nombre:       QLabel_clickable.py
-# Autor:        Miguel Andres Garcia Niño
-# Creado:       11 de Abril 2018
-# Modificado:   11 de Abril 2018
-# Copyright:    (c) 2018 by Miguel Andres Garcia Niño, 2018
-# License:      Apache License 2.0
-# ----------------------------------------------------------------------------
+# Autor:  Saif Kamal Chowdhury XD
 
-#__versión__ = "1.0"
 
-"""
-El módulo *QLabel_clickable* permite llamar a una función al hacer clic o doble clic sobre
-un QLabel
-"""
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import Qt, pyqtSignal, QTimer
-from PyQt5.QtWidgets import QApplication, QDialog, QLabel, QMessageBox
+from PyQt5.QtWidgets import QApplication, QDialog, QLabel, QMessageBox,QComboBox,QHBoxLayout,QActionGroup
 
 
 # ===================== CLASE QLabelClickable ======================
@@ -62,7 +50,7 @@ class labelClickable(QDialog):
 
     def initUI(self):
         # ==================== WIDGET QLABEL =======================
-
+        layout=QHBoxLayout()
         self.button = QtWidgets.QPushButton('Start', self)
         self.button.setStyleSheet("QPushButton{ border: 1px "
                                   "#; border-radius: 4.5px;font-size:20px;}")
@@ -130,15 +118,13 @@ class labelClickable(QDialog):
 
         self.hidden_button4.clicked.connect(self.manual_4)
 
-        # ===================== EVENTO QLABEL ======================
 
-        # Llamar función al hacer clic o doble clic sobre el label
         #self.labelImagen.clicked.connect(self.Clic)
         #self.label_2.clicked.connect(self.secondClick)
         #self.label_3.clicked.connect(self.thirdClick)
         #self.label_4.clicked.connect(self.fourthClick)
 
-    # ======================= FUNCIONES ============================
+    # ======================= FUNCTIONS ============================
 
     def Clic(self):
         QMessageBox.information(self, "1st Gesture","1st Gesture was clicked")
@@ -228,21 +214,39 @@ class labelClickable(QDialog):
 
         action=menu.exec_(self.mapToGlobal(panelPos))
 
+
+
+
+
     def app_supported(self):
         file=open('app.txt','r+')
         x = str()
         x = file.read()
         lines = x.split("\n")
-        print(lines[0])
-        menu2=QtWidgets.QMenu()
+
+        toolMenu = QtWidgets.QMenu()
         for i in range(0,len(lines)):
-           #menu2.addAction(QtGui.QAction(lines[i], menu2, checkable=True))
-           menu2.addAction(lines[i])
+            checkBox = QtWidgets.QCheckBox(lines[i], toolMenu)
+            checkableAction = QtWidgets.QWidgetAction(toolMenu)
+            checkableAction.setDefaultWidget(checkBox)
+            toolMenu.addAction(checkableAction)
+        # for i in range(3):
+        #     checkBox = QtWidgets.QCheckBox(str(i), toolMenu)
+        #     checkableAction = QtWidgets.QWidgetAction(toolMenu)
+        #     checkableAction.setDefaultWidget(checkBox)
+        #     toolMenu.addAction(checkableAction)
+        self.button1.setMenu(toolMenu)
 
 
-        self.button1.setMenu(menu2)
+        #for i in range(0,len(lines)):
+        #    menu2.addAction(QtWidgets.QAction(lines[i], menu2, checkable=True))
+        #
+        # #action=menu2.exec_(self.mapToGlobal(self.pos()))
+        #self.button1.setMenu(menu2)
 
-# ================================================================
+
+
+
 
 if __name__ == '__main__':
     import sys
