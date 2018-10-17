@@ -65,7 +65,7 @@ class Ui_Form(object):
         for i in range (0,len(lines)):
 
             item = QtWidgets.QListWidgetItem()
-            item.setText(lines[i])
+            item.setText(lines[i].replace('.desktop', ''))
             #item.setFlags(item.flags() | QtCore.Qt.ItemIsUserCheckable)
             #item.setCheckState(QtCore.Qt.Unchecked)
             self.listWidget.addItem(item)
