@@ -162,7 +162,7 @@ class labelClickable(QDialog):
         #     "::menu-indicator{ image: none; }::pressed{background-color:cyan}")
 
         panelPos = QtCore.QPoint(self.hidden_button.pos().x() - 100, self.hidden_button.pos().y())
-        menu.setStyleSheet("QMenu{background-color:#00FFF7;border-radius:5px; height:130px   }")
+        menu.setStyleSheet("QMenu{background-color:#00FFF7;border-radius:5px;   }")
         action=menu.exec_(self.mapToGlobal(panelPos))
         #self.hidden_button.setMenu(menu)
 
@@ -221,7 +221,7 @@ class labelClickable(QDialog):
 
 
     def app_supported(self):
-        file=open('app.txt','r+')
+        file=open('../../rsc/applications.txt','r+')
         x = str()
         x = file.read()
         lines = x.split("\n")

@@ -1,4 +1,4 @@
-left_mouse click
+left_mouse click	
 right_mouse click
 middle_mouse click
 scroll_up
