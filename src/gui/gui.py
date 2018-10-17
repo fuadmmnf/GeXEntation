@@ -1,4 +1,4 @@
-# Autor:  Saif Kamal Chowdhury XD
+# Autor:  Saif Kamal Chowdhury 
 
 
 
@@ -66,7 +66,7 @@ class labelClickable(QDialog):
             "QPushButton{background-color: transparent; border-style:outset;border-radius: 4px; border-width:0px;}::hover{"
             "background-color:white}::pressed{background-color: cyan}")
 
-        self.hidden_button2.clicked.connect(self.manual_2)
+        self.hidden_button2.clicked.connect(self.manual)
 
         self.hidden_button3 = QtWidgets.QPushButton('', self)
         self.hidden_button3.setCursor(Qt.PointingHandCursor)
@@ -77,7 +77,7 @@ class labelClickable(QDialog):
             "QPushButton{background-color: transparent; border-style:outset;border-radius: 4px; border-width:0px;}::hover{"
             "background-color:white}::pressed{background-color: cyan}")
 
-        self.hidden_button3.clicked.connect(self.manual_3)
+        self.hidden_button3.clicked.connect(self.manual)
 
         self.hidden_button4 = QtWidgets.QPushButton('', self)
         self.hidden_button4.setCursor(Qt.PointingHandCursor)
@@ -88,7 +88,7 @@ class labelClickable(QDialog):
             "QPushButton{background-color: transparent; border-style:outset;border-radius: 4px; border-width:0px;}::hover{"
             "background-color:white}::pressed{background-color: cyan}")
 
-        self.hidden_button4.clicked.connect(self.manual_4)
+        self.hidden_button4.clicked.connect(self.manual)
 
 
         #self.labelImagen.clicked.connect(self.Clic)
@@ -148,60 +148,6 @@ class labelClickable(QDialog):
 
 
         #self.hidden_button.setMenu(menu)
-
-    def manual_2(self):
-        
-        menu = QtWidgets.QMenu()
-        menu.addAction('hmmm2', self.Clic)
-        menu.addAction('bitch2', self.Clic)
-        menu.addAction('lasagna2', self.Clic)
-
-        self.hidden_button2.setStyleSheet(
-            "QPushButton{border-style:outset; border-width:0px;}::hover{"
-            "background-color:white}"
-            "::menu-indicator{ image: none; }::pressed{background-color:cyan}")
-
-        panelPos = QtCore.QPoint(self.hidden_button2.pos().x() - 110, self.hidden_button2.pos().y())
-        menu.setStyleSheet("QMenu{background-color:#00FFF7;border-radius:5px; height:130px }")
-
-        action = menu.exec_(self.mapToGlobal(panelPos))
-
-
-
-    def manual_3(self):
-        menu = QtWidgets.QMenu()
-        menu.addAction('hmmm3', self.Clic)
-        menu.addAction('bitch3', self.Clic)
-        menu.addAction('lasagna3', self.Clic)
-
-        self.hidden_button3.setStyleSheet(
-            "QPushButton{border-style:outset; border-width:0px;}"
-            "::hover{"
-            "background-color:white}::menu-indicator{ image: none; }::pressed{background-color:cyan}")
-
-        menu.setStyleSheet("QMenu{background-color:#00FFF7;border-radius:5px; height:130px }")
-        panelPos = QtCore.QPoint(self.hidden_button3.pos().x() - 100, self.hidden_button3.pos().y())
-
-        action = menu.exec_(self.mapToGlobal(panelPos))
-
-
-    def manual_4(self):
-        menu = QtWidgets.QMenu()
-        menu.addAction('hmmm4', self.Clic)
-        menu.addAction('bitch4', self.Clic)
-        menu.addAction('lasagna4', self.Clic)
-
-        self.hidden_button4.setStyleSheet(
-            "QPushButton{border-style:outset; border-width:0px;}::hover{"
-            "background-color:white}"
-            "::menu-indicator{ image: none; }::pressed{background-color:cyan}")
-
-        menu.setStyleSheet("QMenu{background-color:#00FFF7;border-radius:5px; height:130px }")
-        panelPos = QtCore.QPoint(self.hidden_button4.pos().x() - 100, self.hidden_button4.pos().y())
-
-        action=menu.exec_(self.mapToGlobal(panelPos))
-
-
 
     def app_supported(self):
         file=open('../../rsc/applications.txt','r+')
