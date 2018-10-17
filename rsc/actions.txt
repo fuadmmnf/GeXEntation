@@ -3,8 +3,8 @@ right_mouse click
 middle_mouse click
 scroll_up
 scroll_down
-horizontal scroll_up
-horizontal scroll_down
+scroll_left
+scroll_right
 page_up
 page_down
 zoom_in

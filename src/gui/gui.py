@@ -156,7 +156,7 @@ class labelClickable(QDialog):
         lines = x.split("\n")
 
         toolMenu = QtWidgets.QMenu()
-        toolMenu.setStyleSheet("QMenu { menu-scrollable: 1; }")
+        toolMenu.setStyleSheet("QMenu { menu-scrollable: 1;}")
         for i in range(0,len(lines)):
             checkBox = QtWidgets.QCheckBox(lines[i], toolMenu)
             checkableAction = QtWidgets.QWidgetAction(toolMenu)

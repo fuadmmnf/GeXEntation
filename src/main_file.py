@@ -5,6 +5,8 @@ import math
 import os
 import time
 import pyautogui
+
+from execute import execute
 # from point import p_crop
 # from palm import h_crop
 # from fin import f_crop
