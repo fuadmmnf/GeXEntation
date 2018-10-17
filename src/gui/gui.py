@@ -1,4 +1,4 @@
-# Autor:  Saif Kamal Chowdhury 
+# Autor:  Saif Kamal Chowdhury
 
 
 
@@ -7,7 +7,68 @@ from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import Qt, pyqtSignal, QTimer
 from PyQt5.QtWidgets import QApplication, QDialog, QLabel, QMessageBox,QComboBox,QHBoxLayout,QActionGroup
 
+class Ui_Form(object):
 
+    def setupUi(self, Form):
+        Form.setObjectName("Form")
+        Form.resize(400, 300)
+        self.pushButton = QtWidgets.QPushButton(Form)
+        self.pushButton.setGeometry(QtCore.QRect(240, 270, 75, 23))
+        self.pushButton.setObjectName("pushButton")
+        self.pushButton_2 = QtWidgets.QPushButton(Form)
+        self.pushButton_2.setGeometry(QtCore.QRect(320, 270, 75, 23))
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.listWidget = QtWidgets.QListWidget(Form)
+        self.listWidget.setGeometry(QtCore.QRect(0, 0, 401, 261))
+        self.listWidget.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
+        self.listWidget.setObjectName("listWidget")
+        self.listWidget.setStyleSheet("QListWidget{border: 0px;padding-left: 10px;}")
+        #self.listWidget.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
+        self.listWidget.setSelectionMode(QtWidgets.QAbstractItemView.MultiSelection)
+        self.listWidget.itemSelectionChanged.connect(self.on_change)
+        self.retranslateUi(Form)
+
+        self.pushButton.clicked.connect(self.print_info)
+
+
+
+        QtCore.QMetaObject.connectSlotsByName(Form)
+    def on_change(self):
+        self.x=[]
+        for item in self.listWidget.selectedItems():
+            self.x.append(item.text())
+#        print([x.append(item.text()) for item in self.listWidget.selectedItems()])
+       # print(self.x)
+
+    def print_info(self):
+        #print("OK pressed")
+        newfile=open("appSelected.txt","w+")
+        for i in range(0,len(self.x)):
+            newfile.write(self.x[i])
+            newfile.write("\n")
+
+
+
+
+    def retranslateUi(self, Form):
+        _translate = QtCore.QCoreApplication.translate
+        Form.setWindowTitle(_translate("Form", "Form"))
+        self.pushButton.setText(_translate("Form", "Ok"))
+        self.pushButton_2.setText(_translate("Form", "Cancel"))
+        __sortingEnabled = self.listWidget.isSortingEnabled()
+        self.listWidget.setSortingEnabled(False)
+        file = open('../../rsc/applications.txt', 'r+')
+        temp = file.read()
+        lines = temp.split("\n")
+
+        #self.listWidget.addItems(lines)
+        for i in range (0,len(lines)):
+
+            item = QtWidgets.QListWidgetItem()
+            item.setText(lines[i])
+            #item.setFlags(item.flags() | QtCore.Qt.ItemIsUserCheckable)
+            #item.setCheckState(QtCore.Qt.Unchecked)
+            self.listWidget.addItem(item)
 
 class labelClickable(QDialog):
     def __init__(self, parent=None):
@@ -150,18 +211,23 @@ class labelClickable(QDialog):
         #self.hidden_button.setMenu(menu)
 
     def app_supported(self):
-        file=open('../../rsc/applications.txt','r+')
-        x = str()
-        x = file.read()
-        lines = x.split("\n")
+        # file=open('../../rsc/applications.txt','r+')
+        # x = str()
+        # x = file.read()
+        # lines = x.split("\n")
 
-        toolMenu = QtWidgets.QMenu()
-        toolMenu.setStyleSheet("QMenu { menu-scrollable: 1;}")
-        for i in range(0,len(lines)):
-            checkBox = QtWidgets.QCheckBox(lines[i], toolMenu)
-            checkableAction = QtWidgets.QWidgetAction(toolMenu)
-            checkableAction.setDefaultWidget(checkBox)
-            toolMenu.addAction(checkableAction)
+        # toolMenu = QtWidgets.QMenu()
+        # toolMenu.setStyleSheet("QMenu { menu-scrollable: 1; }")
+        # for i in range(0,len(lines)):
+        #     checkBox = QtWidgets.QCheckBox(lines[i], toolMenu)
+        #     checkableAction = QtWidgets.QWidgetAction(toolMenu)
+        #     checkableAction.setDefaultWidget(checkBox)
+        #     toolMenu.addAction(checkableAction)
+
+        self.window=QtWidgets.QWidget()
+        self.ui =Ui_Form()
+        self.ui.setupUi(self.window)
+        self.window.show()
 
 
         # for i in range(3):
@@ -169,7 +235,6 @@ class labelClickable(QDialog):
         #     checkableAction = QtWidgets.QWidgetAction(toolMenu)
         #     checkableAction.setDefaultWidget(checkBox)
         #     toolMenu.addAction(checkableAction)
-        self.button1.setMenu(toolMenu)
 
 
 
