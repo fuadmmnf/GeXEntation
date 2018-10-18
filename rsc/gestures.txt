@@ -1,4 +1,4 @@
-screenshot
-screenshot
 up
-up
+down
+screenshot
+spacebar
