@@ -126,9 +126,8 @@ class labelClickable(QDialog):
 
     #minimize effort
         self.tray_icon = QSystemTrayIcon(self)
-        self.tray_icon.setIcon(self.style().standardIcon(QStyle.SP_ComputerIcon))
- 
-        
+        #self.tray_icon.setIcon(self.style().standardIcon(QStyle.SP_ComputerIcon))
+        self.tray_icon.setIcon(QIcon("ico.ico"))
         show_action = QAction("Show", self)
         quit_action = QAction("Exit", self)
         hide_action = QAction("Hide", self)
@@ -458,8 +457,8 @@ class labelClickable(QDialog):
         event.ignore()
         self.hide()
         self.tray_icon.showMessage(
-            "Tray Program",
-            "Application was minimized to Tray",
+            "GeXentation",
+            "App running to Tray",
             QSystemTrayIcon.Information,
             2000
         )
@@ -618,17 +617,17 @@ class labelClickable(QDialog):
 
                     for (x,y,w,h) in fist:
                         print(fist_gesture)
-                        if fist_gesture == 'turn_off':
+                        if self.gest_2_label.text() == 'turn_off':
                             isValid = False
-                        self.execute(fist_gesture)
+                        self.execute(self.gest_2_label.text())
                         start_time = time.time()
                            
 
                     for (x,y,w,h) in right_palm:
-                        if palm_gesture == 'turn_off':
+                        if self.gest_1_label.text() == 'turn_off':
                             isValid = False
                         print('right palm')
-                        self.execute(palm_gesture)
+                        self.execute(self.gest_1_label.text())
                         start_time = time.time()
 
 
@@ -636,18 +635,18 @@ class labelClickable(QDialog):
 
                     for (x,y,w,h) in point:
                         print('point')
-                        if point_gesture == 'turn_off':
+                        if self.gest_3_label.text() == 'turn_off':
                             isValid = False
-                        self.execute(point_gesture)
+                        self.execute(self.gest_3_label.text())
                         start_time = time.time()
                     
 
                     for (x,y,w,h) in thumbdown:   
                         print('thumbsdown')                 
                         print(thumbDown_gesture)
-                        if thumbDown_gesture == 'turn_off':
+                        if self.gest_4_label.text() == 'turn_off':
                             isValid = False
-                        self.execute(thumbDown_gesture)
+                        self.execute(self.gest_4_label.text())
                         start_time = time.time()
 
 
