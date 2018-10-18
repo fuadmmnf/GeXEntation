@@ -25,7 +25,7 @@ play/pause
 '''
 
  
-def execute(str):
+def execute(]str):
 
 
 	if str == 'left_mouse click':
