@@ -487,8 +487,6 @@ class labelClickable(QDialog):
             pyautogui.press('pgup')
         elif str == 'page_down':
             pyautogui.press('pgdn')
-        elif str == 'screenshot':
-            pyautogui.screenshot()
         elif str == 'spacebar':
             pyautogui.press('space')
         # elif str == 'middle_mouse click':
@@ -500,7 +498,7 @@ class labelClickable(QDialog):
         elif str == 'scroll_right':
             pyautogui.hscroll(10)
         elif str == 'scroll_left':
-<<<<<<< HEAD
+
             pyautogui.hscroll(-10)
         elif str == 'up':
             pyautogui.press('up')
@@ -510,9 +508,7 @@ class labelClickable(QDialog):
             pyautogui.press('pgup')
         elif str == 'page_down':
             pyautogui.press('pgdn')
-=======
-            pyautogui.hscroll(-10) 
->>>>>>> 02b900921d1493b794f83d7f7d2c218d8ddec463
+
         elif str == 'zoom_out':
             pyautogui.keydown('shift')
             pyautogui.press('+')
@@ -523,14 +519,12 @@ class labelClickable(QDialog):
             pyautogui.keyup('shift')
         elif str == 'refresh':
             pyautogui.press('f5')
-<<<<<<< HEAD
+
         elif str == 'screenshot':
             from time import gmtime, strftime
             showtime = strftime("%Y-%m-%d%H:%M:%S", gmtime())
             print(showtime)
             pyautogui.screenshot('../../screenshots/'+showtime+'.jpg')
-=======
->>>>>>> 02b900921d1493b794f83d7f7d2c218d8ddec463
         elif str == 'volume_up':
             pyautogui.press('volumeup')
         elif str == 'volume_down':
@@ -621,7 +615,7 @@ class labelClickable(QDialog):
 
 
                     for (x,y,w,h) in fist:
-                        print('fist')
+                        print(fist_gesture)
                         if fist_gesture == 'turn_off':
                             isValid = False
                         self.execute(fist_gesture)
