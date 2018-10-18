@@ -344,6 +344,7 @@ class labelClickable(QDialog):
         self.ui =Ui_Form()
         self.ui.setupUi(self.window)
         self.window.show()
+        self.ui.pushButton.clicked.connect(self.window.hide)
 
 
         # for i in range(3):

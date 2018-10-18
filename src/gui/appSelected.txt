@@ -1,5 +1,0 @@
-bamf-2.index
-cheese.desktop
-debian-uxterm.desktop
-codeblocks.desktop
-compiz.desktop
