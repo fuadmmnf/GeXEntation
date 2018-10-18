@@ -118,10 +118,12 @@ class labelClickable(QDialog):
         self.hidden_button.setGeometry(50, 40, 120, 130)
         self.hidden_button.setStyleSheet(
             "QPushButton{background-color: transparent; border-style:outset; border-radius: 4px; border-width:0px;}::hover{"
-            "background-color:white}::pressed{background-color: cyan}")
-
-
+            "background-color:white}::pressed{background-color: cyan}")        
         self.hidden_button.clicked.connect(self.manual)
+
+        self.gest_1_label = QtWidgets.QLabel(fist_gesture, self)
+        self.gest_1_label.setGeometry(73,155,100,50)
+
 
         self.hidden_button2 = QtWidgets.QPushButton('', self)
         self.hidden_button2.setCursor(Qt.PointingHandCursor)
@@ -131,36 +133,45 @@ class labelClickable(QDialog):
         self.hidden_button2.setStyleSheet(
             "QPushButton{background-color: transparent; border-style:outset;border-radius: 4px; border-width:0px;}::hover{"
             "background-color:white}::pressed{background-color: cyan}")
+        self.hidden_button2.clicked.connect(self.manual_2)
 
-        self.hidden_button2.clicked.connect(self.manual)
+        self.gest_2_label = QtWidgets.QLabel(palm_gesture, self)
+        self.gest_2_label.setGeometry(203, 155, 100, 50)
+
+
 
         self.hidden_button3 = QtWidgets.QPushButton('', self)
         self.hidden_button3.setCursor(Qt.PointingHandCursor)
         self.hidden_button3.setIcon(QtGui.QIcon('thumbDown.jpg'))
         self.hidden_button3.setIconSize(QtCore.QSize(120, 130))
-        self.hidden_button3.setGeometry(50, 180, 120, 130)
+        self.hidden_button3.setGeometry(50, 200, 120, 130)
         self.hidden_button3.setStyleSheet(
             "QPushButton{background-color: transparent; border-style:outset;border-radius: 4px; border-width:0px;}::hover{"
             "background-color:white}::pressed{background-color: cyan}")
+        self.hidden_button3.clicked.connect(self.manual_3)
 
-        self.hidden_button3.clicked.connect(self.manual)
+
+        self.gest_3_label = QtWidgets.QLabel(point_gesture, self)
+        self.gest_3_label.setGeometry(73,315, 100, 50)
+
+
+
 
         self.hidden_button4 = QtWidgets.QPushButton('', self)
         self.hidden_button4.setCursor(Qt.PointingHandCursor)
         self.hidden_button4.setIcon(QtGui.QIcon('loser1.jpg'))
         self.hidden_button4.setIconSize(QtCore.QSize(120, 130))
-        self.hidden_button4.setGeometry(180, 180, 120, 130)
+        self.hidden_button4.setGeometry(180, 200, 120, 130)
         self.hidden_button4.setStyleSheet(
             "QPushButton{background-color: transparent; border-style:outset;border-radius: 4px; border-width:0px;}::hover{"
             "background-color:white}::pressed{background-color: cyan}")
 
-        self.hidden_button4.clicked.connect(self.manual)
+        self.hidden_button4.clicked.connect(self.manual_4)
 
-        self.label1= QLabel("OKKKK",self)
-        self.label1.setText(fist_gesture)
-    
-
-
+        self.gest_4_label = QtWidgets.QLabel(thumbDown_gesture, self)
+        self.gest_4_label.setGeometry(203,315, 100, 50)
+     
+        
         #self.labelImagen.clicked.connect(self.Clic)
         #self.label_2.clicked.connect(self.secondClick)
         #self.label_3.clicked.connect(self.thirdClick)
@@ -173,12 +184,16 @@ class labelClickable(QDialog):
         
         if self.gestureNum == 1:
             fist_gesture = action.text()
+            self.gest_1_label.setText(fist_gesture)
         elif self.gestureNum == 2:
             palm_gesture = action.text()
+            self.gest_2_label.setText(palm_gesture)
         elif self.gestureNum == 3:
             point_gesture = action.text()
+            self.gest_3_label.setText(point_gesture)
         elif self.gestureNum == 4:
             thumbDown_gesture = action.text()
+            self.gest_4_label.setText(thumbDown_gesture)
         
 
 
@@ -224,91 +239,91 @@ class labelClickable(QDialog):
 
         #self.hidden_button.setMenu(menu)
 
-        def manual_2(self):
+    def manual_2(self):
 
-            menu = QtWidgets.QMenu()
-            menu.setStyleSheet("QMenu{menu-scrollable: 1;background-color:#00FFF7;border-radius:5px; "
-                               "width:140px}")
+        menu = QtWidgets.QMenu()
+        menu.setStyleSheet("QMenu{menu-scrollable: 1;background-color:#00FFF7;border-radius:5px; "
+                           "width:140px}")
 
-          
-            for line in self.lines:
-                menu.addAction(line)
+      
+        for line in self.lines:
+            menu.addAction(line)
 
-            self.gestureNum = 2
+        self.gestureNum = 2
 
-            menu.triggered.connect(self.Clic)
-            # panelPos = QtCore.QPoint(self.hidden_button.pos().x() - 100, self.hidden_button.pos().y())
-            # menu.setStyleSheet("QMenu{background-color:#00FFF7;border-radius:5px;   }")
+        menu.triggered.connect(self.Clic)
+        # panelPos = QtCore.QPoint(self.hidden_button.pos().x() - 100, self.hidden_button.pos().y())
+        # menu.setStyleSheet("QMenu{background-color:#00FFF7;border-radius:5px;   }")
 
-            # self.hidden_button.setStyleSheet(
-            #     "QPushButton{border-style:inset; border-width:0px;}"
-            #     "::hover{"
-            #     "background-color:white}"
-            #     "::menu-indicator{ image: none; }::pressed{background-color:cyan}")
+        # self.hidden_button.setStyleSheet(
+        #     "QPushButton{border-style:inset; border-width:0px;}"
+        #     "::hover{"
+        #     "background-color:white}"
+        #     "::menu-indicator{ image: none; }::pressed{background-color:cyan}")
 
-            panelPos = QtCore.QPoint(self.hidden_button.pos().x() - 120, self.hidden_button.pos().y())
-            action=menu.exec_(self.mapToGlobal(panelPos))
-
-
-            #self.hidden_button.setMenu(menu)
+        panelPos = QtCore.QPoint(self.hidden_button.pos().x() - 120, self.hidden_button.pos().y())
+        action=menu.exec_(self.mapToGlobal(panelPos))
 
 
-        def manual_3(self):
-
-            menu = QtWidgets.QMenu()
-            menu.setStyleSheet("QMenu{menu-scrollable: 1;background-color:#00FFF7;border-radius:5px; "
-                               "width:140px}")
-
-            
-            for line in self.lines:
-                menu.addAction(line)
-
-            self.gestureNum = 3
-
-            menu.triggered.connect(self.Clic)
-            # panelPos = QtCore.QPoint(self.hidden_button.pos().x() - 100, self.hidden_button.pos().y())
-            # menu.setStyleSheet("QMenu{background-color:#00FFF7;border-radius:5px;   }")
-
-            # self.hidden_button.setStyleSheet(
-            #     "QPushButton{border-style:inset; border-width:0px;}"
-            #     "::hover{"
-            #     "background-color:white}"
-            #     "::menu-indicator{ image: none; }::pressed{background-color:cyan}")
-
-            panelPos = QtCore.QPoint(self.hidden_button.pos().x() - 120, self.hidden_button.pos().y())
-            action=menu.exec_(self.mapToGlobal(panelPos))
+        #self.hidden_button.setMenu(menu)
 
 
-            #self.hidden_button.setMenu(menu)
+    def manual_3(self):
+
+        menu = QtWidgets.QMenu()
+        menu.setStyleSheet("QMenu{menu-scrollable: 1;background-color:#00FFF7;border-radius:5px; "
+                           "width:140px}")
+
+        
+        for line in self.lines:
+            menu.addAction(line)
+
+        self.gestureNum = 3
+
+        menu.triggered.connect(self.Clic)
+        # panelPos = QtCore.QPoint(self.hidden_button.pos().x() - 100, self.hidden_button.pos().y())
+        # menu.setStyleSheet("QMenu{background-color:#00FFF7;border-radius:5px;   }")
+
+        # self.hidden_button.setStyleSheet(
+        #     "QPushButton{border-style:inset; border-width:0px;}"
+        #     "::hover{"
+        #     "background-color:white}"
+        #     "::menu-indicator{ image: none; }::pressed{background-color:cyan}")
+
+        panelPos = QtCore.QPoint(self.hidden_button.pos().x() - 120, self.hidden_button.pos().y())
+        action=menu.exec_(self.mapToGlobal(panelPos))
 
 
-        def manual_4(self):
-
-            menu = QtWidgets.QMenu()
-            menu.setStyleSheet("QMenu{menu-scrollable: 1;background-color:#00FFF7;border-radius:5px; "
-                               "width:140px}")
-
-            
-            for line in self.lines:
-                menu.addAction(line)
-
-            self.gestureNum = 4
-
-            menu.triggered.connect(self.Clic)
-            # panelPos = QtCore.QPoint(self.hidden_button.pos().x() - 100, self.hidden_button.pos().y())
-            # menu.setStyleSheet("QMenu{background-color:#00FFF7;border-radius:5px;   }")
-
-            # self.hidden_button.setStyleSheet(
-            #     "QPushButton{border-style:inset; border-width:0px;}"
-            #     "::hover{"
-            #     "background-color:white}"
-            #     "::menu-indicator{ image: none; }::pressed{background-color:cyan}")
-
-            panelPos = QtCore.QPoint(self.hidden_button.pos().x() - 120, self.hidden_button.pos().y())
-            action=menu.exec_(self.mapToGlobal(panelPos))
+        #self.hidden_button.setMenu(menu)
 
 
-            #self.hidden_button.setMenu(menu)
+    def manual_4(self):
+
+        menu = QtWidgets.QMenu()
+        menu.setStyleSheet("QMenu{menu-scrollable: 1;background-color:#00FFF7;border-radius:5px; "
+                           "width:140px}")
+
+        
+        for line in self.lines:
+            menu.addAction(line)
+
+        self.gestureNum = 4
+
+        menu.triggered.connect(self.Clic)
+        # panelPos = QtCore.QPoint(self.hidden_button.pos().x() - 100, self.hidden_button.pos().y())
+        # menu.setStyleSheet("QMenu{background-color:#00FFF7;border-radius:5px;   }")
+
+        # self.hidden_button.setStyleSheet(
+        #     "QPushButton{border-style:inset; border-width:0px;}"
+        #     "::hover{"
+        #     "background-color:white}"
+        #     "::menu-indicator{ image: none; }::pressed{background-color:cyan}")
+
+        panelPos = QtCore.QPoint(self.hidden_button.pos().x() - 120, self.hidden_button.pos().y())
+        action=menu.exec_(self.mapToGlobal(panelPos))
+
+
+        #self.hidden_button.setMenu(menu)
 
 
     def app_supported(self):
