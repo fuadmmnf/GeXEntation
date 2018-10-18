@@ -11,7 +11,3 @@ def getWindowName():
 
 	return window.get_wm_class()[1]
 
-
-while True:
-	print(getWindowName())
-	time.sleep(2)

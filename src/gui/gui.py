@@ -74,6 +74,12 @@ class labelClickable(QDialog):
     def __init__(self, parent=None):
         super(labelClickable, self).__init__(parent)
 
+        self.file=open('../../rsc/actions.txt','r+')
+        self.temp= self.file.read()
+        self.lines= self.temp.split("\n")
+
+        self.gestureNum  = -1
+
         self.setWindowTitle("GeXentation")
         self.setWindowIcon(QIcon("icon.png"))
         self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint)
@@ -82,8 +88,7 @@ class labelClickable(QDialog):
         self.initUI()
 
     def initUI(self):
-        # ==================== WIDGET QLABEL =======================
-        layout=QHBoxLayout()
+       
         self.button = QtWidgets.QPushButton('Start', self)
         self.button.setStyleSheet("QPushButton{ border: 1px "
                                   "#; border-radius: 4.5px;font-size:20px;}")
@@ -151,6 +156,10 @@ class labelClickable(QDialog):
 
         self.hidden_button4.clicked.connect(self.manual)
 
+        self.label1= QLabel("OKKKK",self)
+        self.label1.setText(fist_gesture)
+    
+
 
         #self.labelImagen.clicked.connect(self.Clic)
         #self.label_2.clicked.connect(self.secondClick)
@@ -159,56 +168,148 @@ class labelClickable(QDialog):
 
     # ======================= FUNCTIONS ============================
 
-    def Clic(self):
-        QMessageBox.information(self, "1st Gesture","1st Gesture was clicked")
-        print("1st gesture")
+    def Clic(self,action):
+        #QMessageBox.information(self, "1st Gesture","1st Gesture was clicked")
+        
+        if self.gestureNum == 1:
+            fist_gesture = action.text()
+        elif self.gestureNum == 2:
+            palm_gesture = action.text()
+        elif self.gestureNum == 3:
+            point_gesture = action.text()
+        elif self.gestureNum == 4:
+            thumbDown_gesture = action.text()
+        
 
-        #self.labelImagen.setContextMenuPolicy(menu)
 
 
 
+    # def secondClick(self):
+    #     QMessageBox.information(self, "2nd Gesture", "2nd Gesture was clicked")
 
-    def secondClick(self):
-        QMessageBox.information(self, "2nd Gesture", "2nd Gesture was clicked")
+    # def thirdClick(self):
+    #     QMessageBox.information(self, "3rd Gesture", "3rd Gesture was clicked")
 
-    def thirdClick(self):
-        QMessageBox.information(self, "3rd Gesture", "3rd Gesture was clicked")
+    # def fourthClick(self):
+    #     QMessageBox.information(self, "4th Gesture", "4th Gesture was clicked")
 
-    def fourthClick(self):
-        QMessageBox.information(self, "4th Gesture", "4th Gesture was clicked")
-
-    def close(self):
-        QApplication.quit()
+    # def close(self):
+    #     QApplication.quit()
 
     def manual(self):
 
         menu = QtWidgets.QMenu()
         menu.setStyleSheet("QMenu{menu-scrollable: 1;background-color:#00FFF7;border-radius:5px; "
-                           "overflow:auto;width:140px}")
+                           "width:140px}")
 
-        file=open('../../rsc/actions.txt','r+')
-        temp=file.read()
-        lines=temp.split("\n")
-        for line in lines:
-            menu.addAction(line, self.Clic)
+        
+        for line in self.lines:
+            menu.addAction(line)
 
+        self.gestureNum = 1
 
+        menu.triggered.connect(self.Clic)
+        # panelPos = QtCore.QPoint(self.hidden_button.pos().x() - 100, self.hidden_button.pos().y())
+        # menu.setStyleSheet("QMenu{background-color:#00FFF7;border-radius:5px;   }")
 
-
-        panelPos = QtCore.QPoint(self.hidden_button.pos().x() - 100, self.hidden_button.pos().y())
-        menu.setStyleSheet("QMenu{background-color:#00FFF7;border-radius:5px;   }")
-
-        self.hidden_button.setStyleSheet(
-            "QPushButton{border-style:inset; border-width:0px;}"
-            "::hover{"
-            "background-color:white}"
-            "::menu-indicator{ image: none; }::pressed{background-color:cyan}")
+        # self.hidden_button.setStyleSheet(
+        #     "QPushButton{border-style:inset; border-width:0px;}"
+        #     "::hover{"
+        #     "background-color:white}"
+        #     "::menu-indicator{ image: none; }::pressed{background-color:cyan}")
 
         panelPos = QtCore.QPoint(self.hidden_button.pos().x() - 120, self.hidden_button.pos().y())
         action=menu.exec_(self.mapToGlobal(panelPos))
 
 
         #self.hidden_button.setMenu(menu)
+
+        def manual_2(self):
+
+            menu = QtWidgets.QMenu()
+            menu.setStyleSheet("QMenu{menu-scrollable: 1;background-color:#00FFF7;border-radius:5px; "
+                               "width:140px}")
+
+          
+            for line in self.lines:
+                menu.addAction(line)
+
+            self.gestureNum = 2
+
+            menu.triggered.connect(self.Clic)
+            # panelPos = QtCore.QPoint(self.hidden_button.pos().x() - 100, self.hidden_button.pos().y())
+            # menu.setStyleSheet("QMenu{background-color:#00FFF7;border-radius:5px;   }")
+
+            # self.hidden_button.setStyleSheet(
+            #     "QPushButton{border-style:inset; border-width:0px;}"
+            #     "::hover{"
+            #     "background-color:white}"
+            #     "::menu-indicator{ image: none; }::pressed{background-color:cyan}")
+
+            panelPos = QtCore.QPoint(self.hidden_button.pos().x() - 120, self.hidden_button.pos().y())
+            action=menu.exec_(self.mapToGlobal(panelPos))
+
+
+            #self.hidden_button.setMenu(menu)
+
+
+        def manual_3(self):
+
+            menu = QtWidgets.QMenu()
+            menu.setStyleSheet("QMenu{menu-scrollable: 1;background-color:#00FFF7;border-radius:5px; "
+                               "width:140px}")
+
+            
+            for line in self.lines:
+                menu.addAction(line)
+
+            self.gestureNum = 3
+
+            menu.triggered.connect(self.Clic)
+            # panelPos = QtCore.QPoint(self.hidden_button.pos().x() - 100, self.hidden_button.pos().y())
+            # menu.setStyleSheet("QMenu{background-color:#00FFF7;border-radius:5px;   }")
+
+            # self.hidden_button.setStyleSheet(
+            #     "QPushButton{border-style:inset; border-width:0px;}"
+            #     "::hover{"
+            #     "background-color:white}"
+            #     "::menu-indicator{ image: none; }::pressed{background-color:cyan}")
+
+            panelPos = QtCore.QPoint(self.hidden_button.pos().x() - 120, self.hidden_button.pos().y())
+            action=menu.exec_(self.mapToGlobal(panelPos))
+
+
+            #self.hidden_button.setMenu(menu)
+
+
+        def manual_4(self):
+
+            menu = QtWidgets.QMenu()
+            menu.setStyleSheet("QMenu{menu-scrollable: 1;background-color:#00FFF7;border-radius:5px; "
+                               "width:140px}")
+
+            
+            for line in self.lines:
+                menu.addAction(line)
+
+            self.gestureNum = 4
+
+            menu.triggered.connect(self.Clic)
+            # panelPos = QtCore.QPoint(self.hidden_button.pos().x() - 100, self.hidden_button.pos().y())
+            # menu.setStyleSheet("QMenu{background-color:#00FFF7;border-radius:5px;   }")
+
+            # self.hidden_button.setStyleSheet(
+            #     "QPushButton{border-style:inset; border-width:0px;}"
+            #     "::hover{"
+            #     "background-color:white}"
+            #     "::menu-indicator{ image: none; }::pressed{background-color:cyan}")
+
+            panelPos = QtCore.QPoint(self.hidden_button.pos().x() - 120, self.hidden_button.pos().y())
+            action=menu.exec_(self.mapToGlobal(panelPos))
+
+
+            #self.hidden_button.setMenu(menu)
+
 
     def app_supported(self):
         # file=open('../../rsc/applications.txt','r+')
@@ -245,6 +346,12 @@ class labelClickable(QDialog):
 
 if __name__ == '__main__':
     import sys
+
+
+    fist_gesture = ""
+    palm_gesture = ""
+    point_gesture = ""
+    thumbDown_gesture = ""
 
     aplicacion = QApplication(sys.argv)
 
