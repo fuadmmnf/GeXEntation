@@ -1,2 +1,16 @@
+debian-uxterm
+debian-uxterm
+codeblocks
+debian-uxterm
+codeblocks
 credentials-preferences
-cheese
+codeblocks
+codeblocks
+credentials-preferences
+codeblocks
+credentials-preferences
+debian-uxterm
+codeblocks
+credentials-preferences
+debian-uxterm
+defaults.list

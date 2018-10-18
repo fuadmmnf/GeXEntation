@@ -10,12 +10,15 @@ import math
 import os
 import time
 import pyautogui
-import keyboard
+#import keyboard
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import Qt, pyqtSignal, QTimer
 from PyQt5.QtWidgets import QApplication, QDialog, QLabel, QMessageBox,QComboBox,QHBoxLayout,QActionGroup,QSystemTrayIcon,QStyle,QAction,qApp,QMenu
 tray_icon = None
+
+appList = []
+
 class Ui_Form(object):
 
     def setupUi(self, Form):
@@ -43,18 +46,23 @@ class Ui_Form(object):
 
         QtCore.QMetaObject.connectSlotsByName(Form)
     def on_change(self):
-        self.x=[]
+        global appList
+        self.x = appList
         for item in self.listWidget.selectedItems():
             self.x.append(item.text())
-#        print([x.append(item.text()) for item in self.listWidget.selectedItems()])
-       # print(self.x)
 
+       
+        appList = self.x
+#        print([x.append(item.text()) for item in self.listWidget.selectedItems()])
+        # print(self.x)
+        # print(appList)
     def print_info(self):
+        pass
         #print("OK pressed")
-        newfile=open("../../rsc/appSelected.txt","w+")
-        for i in range(0,len(self.x)):
-            newfile.write(self.x[i])
-            newfile.write("\n")
+        # newfile=open("../../rsc/appSelected.txt","w")
+        # for i in range(0,len(self.x)):
+        #     newfile.write(self.x[i]+'\n')
+            
 
 
 
@@ -65,19 +73,26 @@ class Ui_Form(object):
         self.pushButton.setText(_translate("Form", "Ok"))
         self.pushButton_2.setText(_translate("Form", "Cancel"))
         __sortingEnabled = self.listWidget.isSortingEnabled()
+        self.listWidget.setSelectionMode(QtWidgets.QAbstractItemView.MultiSelection)
         self.listWidget.setSortingEnabled(False)
         file = open('../../rsc/applications.txt', 'r+')
         temp = file.read()
         lines = temp.split("\n")
 
         #self.listWidget.addItems(lines)
+        global appList
+        print(appList)
         for i in range (0,len(lines)):
 
             item = QtWidgets.QListWidgetItem()
-            item.setText(lines[i].replace('.desktop', ''))
+            self.str = lines[i].replace('.desktop', '')
+            item.setText(self.str)
             #item.setFlags(item.flags() | QtCore.Qt.ItemIsUserCheckable)
             #item.setCheckState(QtCore.Qt.Unchecked)
             self.listWidget.addItem(item)
+            if self.str in appList:
+                self.listWidget.setCurrentItem(item)
+
 
 class labelClickable(QDialog):
     def __init__(self, parent=None):
@@ -86,8 +101,24 @@ class labelClickable(QDialog):
         self.file=open('../../rsc/actions.txt','r+')
         self.temp= self.file.read()
         self.lines= self.temp.split("\n")
-
+        global appList
+        self.x = appList
         self.gestureNum  = -1
+
+
+        exists = os.path.isfile('../../rsc/appSelected.txt')
+
+    
+        if exists:
+            file = open('../../rsc/appSelected.txt', 'r+')
+            temp = file.read()
+            lines = temp.split("\n")
+            
+            for line in lines:
+                if line != '':
+                    self.x.append(line)
+            appList = self.x
+
 
         self.setWindowTitle("GeXentation")
         self.setWindowIcon(QIcon("icon.png"))
@@ -173,7 +204,7 @@ class labelClickable(QDialog):
             "background-color:white}::pressed{background-color: cyan}")        
         self.hidden_button.clicked.connect(self.manual)
 
-        self.gest_1_label = QtWidgets.QLabel(fist_gesture, self)
+        self.gest_1_label = QtWidgets.QLabel(palm_gesture, self)
         self.gest_1_label.setGeometry(73,155,120,50)
 
         self.gest_1_label.setStyleSheet("QLabel{background:transparent;font-size:14px;}")
@@ -187,7 +218,7 @@ class labelClickable(QDialog):
             "background-color:white}::pressed{background-color: cyan}")
         self.hidden_button2.clicked.connect(self.manual_2)
 
-        self.gest_2_label = QtWidgets.QLabel(palm_gesture, self)
+        self.gest_2_label = QtWidgets.QLabel(fist_gesture, self)
         self.gest_2_label.setGeometry(203, 155, 120, 50)
         self.gest_2_label.setStyleSheet("QLabel{background:transparent;font-size:14px;}")
 
@@ -408,6 +439,16 @@ class labelClickable(QDialog):
 
     def closeEvent(self, event):
         
+        newfile=open("../../rsc/appSelected.txt","w")
+        for line in self.x:
+            newfile.write(line + '\n')
+
+        newfile.close()
+
+
+
+
+
         newfile=open("../../rsc/gestures.txt","w")
         newfile.write(self.gest_1_label.text())
         newfile.write('\n')
@@ -440,14 +481,18 @@ class labelClickable(QDialog):
             pyautogui.click( button = 'right' )
         # elif str == 'middle_mouse click':
         #     pyautogui.click( button = 'middle' )
-        # elif str == 'scroll_up':
-        #     pyautogui.scroll(10)
-        # elif str == 'scroll_down':
-        #     pyautogui.scroll(-10)
+        elif str == 'scroll_up':
+            pyautogui.scroll(10)
+        elif str == 'scroll_down':
+            pyautogui.scroll(-10)
         elif str == 'scroll_right':
             pyautogui.hscroll(10)
         elif str == 'scroll_left':
             pyautogui.hscroll(-10)
+        elif str == 'up':
+            pyautogui.press('up')
+        elif str == 'down':
+            pyautogui.press('down')
         elif str == 'page_up':
             pyautogui.press('pgup')
         elif str == 'page_down':
@@ -463,7 +508,10 @@ class labelClickable(QDialog):
         elif str == 'refresh':
             pyautogui.press('f5')
         elif str == 'screenshot':
-            pyautogui.screenshot()
+            from time import gmtime, strftime
+            showtime = strftime("%Y-%m-%d%H:%M:%S", gmtime())
+            print(showtime)
+            pyautogui.screenshot('../../screenshots/'+showtime+'.jpg')
         elif str == 'volume_up':
             pyautogui.press('volumeup')
         elif str == 'volume_down':
@@ -500,10 +548,22 @@ class labelClickable(QDialog):
     def webStart(self):
         # gesture detection code
 
+        newfile=open("../../rsc/gestures.txt","w")
+        newfile.write(self.gest_1_label.text())
+        newfile.write('\n')
+        newfile.write(self.gest_2_label.text())
+        newfile.write('\n')
+        newfile.write(self.gest_3_label.text())
+        newfile.write('\n')
+        newfile.write(self.gest_4_label.text())
+        newfile.close()
+
+
         cap = cv2.VideoCapture(0)
         start_time = -1 
         finish_time = 0
-        while True:   
+        isValid = True
+        while isValid:   
 
             #if self.getWindowName() in self.x:
             _, img=cap.read()
@@ -517,7 +577,7 @@ class labelClickable(QDialog):
 
             finish_time = time.time()
             start_time = -1
-            if(start_time==-1 or finish_time-start_time>=0.5):
+            if(start_time==-1 or finish_time-start_time>=1):
             
                     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
                     
@@ -542,29 +602,38 @@ class labelClickable(QDialog):
 
 
                     for (x,y,w,h) in fist:
-                            print('fist')
-                            self.execute(fist_gesture)
-                            start_time = time.time()
+                        print('fist')
+                        if fist_gesture == 'turn_off':
+                            isValid = False
+                        self.execute(fist_gesture)
+                        start_time = time.time()
                            
 
                     for (x,y,w,h) in right_palm:
-                            print('right palm')
-                            self.execute(palm_gesture)
-                            start_time = time.time()
+                        if palm_gesture == 'turn_off':
+                            isValid = False
+                        print('right palm')
+                        self.execute(palm_gesture)
+                        start_time = time.time()
 
 
 
 
                     for (x,y,w,h) in point:
-                            print('point')
-                            self.execute(point_gesture)
-                            start_time = time.time()
+                        print('point')
+                        if point_gesture == 'turn_off':
+                            isValid = False
+                        self.execute(point_gesture)
+                        start_time = time.time()
                     
 
-                    for (x,y,w,h) in thumbdown:                    
-                            print('thumbs down')
-                            self.execute(thumbDown_gesture)
-                            start_time = time.time()
+                    for (x,y,w,h) in thumbdown:   
+                        print('thumbsdown')                 
+                        print(thumbDown_gesture)
+                        if thumbDown_gesture == 'turn_off':
+                            isValid = False
+                        self.execute(thumbDown_gesture)
+                        start_time = time.time()
 
 
                         
@@ -605,6 +674,13 @@ if __name__ == '__main__':
         fist_gesture = ''
         point_gesture = ''
         thumbDown_gesture = ''
+
+
+
+
+
+
+
 
     #haar cascades initializatoin
     right_h1_cascade=cv2.CascadeClassifier('../../rsc/haar_cascades/rpalm.xml') # right palm

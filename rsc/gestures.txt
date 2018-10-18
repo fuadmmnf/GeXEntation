@@ -1,4 +1,4 @@
+turn_off
 screenshot
-screenshot
-up
-up
+left_mouse click
+right_mouse click

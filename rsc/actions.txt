@@ -8,3 +8,4 @@ spacebar
 page_up
 page_down
 screenshot
+turn_off
