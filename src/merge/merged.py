@@ -5,6 +5,12 @@ import math
 import os
 import time
 import pyautogui
+from multiprocessing import Process
+import Xlib
+import Xlib.display
+import time
+import sys
+
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -59,7 +65,7 @@ class Ui_Form(object):
 
     def print_info(self):
         #print("OK pressed")
-        newfile=open("appSelected.txt","w+")
+        newfile=open("../../rsc/appSelected.txt","w+")
         for i in range(0,len(self.x)):
             newfile.write(self.x[i])
             newfile.write("\n")
@@ -115,6 +121,7 @@ class labelClickable(QDialog):
         self.lines= self.temp.split("\n")
 
         self.gestureNum  = -1
+        self.status = "Stop"
 
         self.setWindowTitle("GeXentation")
         self.setWindowIcon(QIcon("icon.png"))
@@ -159,7 +166,7 @@ class labelClickable(QDialog):
             "background-color:white}::pressed{background-color: cyan}")        
         self.hidden_button.clicked.connect(self.manual)
 
-        self.gest_1_label = QtWidgets.QLabel(fist_gesture, self)
+        self.gest_1_label = QtWidgets.QLabel(palm_gesture, self)
         self.gest_1_label.setGeometry(73,155,100,50)
 
 
@@ -173,7 +180,7 @@ class labelClickable(QDialog):
             "background-color:white}::pressed{background-color: cyan}")
         self.hidden_button2.clicked.connect(self.manual_2)
 
-        self.gest_2_label = QtWidgets.QLabel(palm_gesture, self)
+        self.gest_2_label = QtWidgets.QLabel(fist_gesture, self)
         self.gest_2_label.setGeometry(203, 155, 100, 50)
 
 
@@ -382,6 +389,7 @@ class labelClickable(QDialog):
         self.ui =Ui_Form()
         self.ui.setupUi(self.window)
         self.window.show()
+        self.ui.pushButton.clicked.connect(self.window.hide)
 
 
         # for i in range(3):
@@ -411,14 +419,14 @@ class labelClickable(QDialog):
         elif str == 'scroll_left':
             pyautogui.hscroll(-10)
         elif str == 'page_up':
-            pyautogui.press('pgup')
+            pyautogui.press('up')
         elif str == 'page_down':
-            pyautogui.press('pgdn')
-        elif str == 'zoom_out':
+            pyautogui.press('down')
+        elif str == 'zoom_in':
             pyautogui.keydown('shift')
             pyautogui.press('+')
             pyautogui.keyup('shift')
-        elif str == 'zoom_in':
+        elif str == 'zoom_out':
             pyautogui.keydown('shift')
             pyautogui.press('-')
             pyautogui.keyup('shift')
@@ -439,14 +447,88 @@ class labelClickable(QDialog):
 
 
 
+    def getWindowName(self):
+        display = Xlib.display.Display()
+        root = display.screen().root
+        windowID = root.get_full_property(display.intern_atom('_NET_ACTIVE_WINDOW'), Xlib.X.AnyPropertyType).value[0]
+        window = display.create_resource_object('window', windowID)
+
+        return window.get_wm_class()[1]
 
 
 
 
 
 
+    def detectGesture(self):
+
+        self.button.setText("Stop")
+        cap = cv2.VideoCapture(0)
+        start_time = -1 
+        finish_time = 0
+        while(self.status == 'Start'):   
+            isValid = False;
+
+            _,img=cap.read()
+            #cv2.imshow('Webcam',img)
+                    
+            k=cv2.waitKey(10)
+            if k==27:
+                break
 
 
+            finish_time = time.time()
+            if(start_time==-1 or finish_time-start_time>=1):
+            
+                gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+                
+                #point = point_cascade.detectMultiScale(gray,1.1,5)
+                #fin=fin_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5,flags=0, minSize=(100,80))
+                right_palm = right_h1_cascade.detectMultiScale(gray,1.1, 5)
+                point=point_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,80))
+                #hand = hand_cascade.detectMultiScale(gray,1.1, 5)
+                #LtoR=hand_left_to_right_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
+                #RtoL=hand_right_to_left_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
+                #finger_count = finger_count_cascade.detectMultiScale(gray,1.1,5)
+                #left_palm = left_h1_cascade.detectMultiScale(gray,1.1, 5)
+                #right_dir = right_cascade.detectMultiScale(gray,1.1, 5)
+                #left_dir = left_cascade.detectMultiScale(gray,1.1, 5)
+                fist=fist_cascade.detectMultiScale(gray,1.1, 5)
+                #fist=fist_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
+
+                thumbdown=thumbdown_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,80))
+
+
+
+
+
+                for (x,y,w,h) in fist:
+                        print(self.gest_2_label.text())
+                        self.execute(self.gest_2_label.text())
+                        print('fist')
+                        start_time = time.time()
+                       
+
+                for (x,y,w,h) in right_palm:
+                        self.execute(self.gest_1_label.text())
+                        print('palm')
+                        start_time = time.time()
+
+
+
+
+                for (x,y,w,h) in point:
+                        self.execute(self.gest_3_label.text())
+                        print('point')
+                        start_time = time.time()
+                
+
+                for (x,y,w,h) in thumbdown:   
+                    break
+
+
+        cap.release()    
+        cv2.destroyAllWindows()
 
 
 
@@ -455,77 +537,16 @@ class labelClickable(QDialog):
 
 
     def startWeb(self):
-
-        # gesture detection code
-        cap = cv2.VideoCapture(0)
-        start_time = -1 
-        finish_time = 0
-        while(1):   
-                isValid = False;
-
-                _,img=cap.read()
-                #cv2.imshow('Webcam',img)
-                        
-                k=cv2.waitKey(10)
-                if k==27:
-                        break
-
-
-                finish_time = time.time()
-                if(start_time==-1 or finish_time-start_time>=1):
-                
-                        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-                        
-                        #point = point_cascade.detectMultiScale(gray,1.1,5)
-                        #fin=fin_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5,flags=0, minSize=(100,80))
-                        right_palm = right_h1_cascade.detectMultiScale(gray,1.1, 5)
-                        point=point_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,80))
-                        #hand = hand_cascade.detectMultiScale(gray,1.1, 5)
-                        #LtoR=hand_left_to_right_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
-                        #RtoL=hand_right_to_left_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
-                        #finger_count = finger_count_cascade.detectMultiScale(gray,1.1,5)
-                        #left_palm = left_h1_cascade.detectMultiScale(gray,1.1, 5)
-                        #right_dir = right_cascade.detectMultiScale(gray,1.1, 5)
-                        #left_dir = left_cascade.detectMultiScale(gray,1.1, 5)
-                        fist=fist_cascade.detectMultiScale(gray,1.1, 5)
-                        #fist=fist_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
-
-                        thumbdown=thumbdown_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,80))
-
-
-
-
-
-                        for (x,y,w,h) in fist:
-                                print(self.gest_1_label.text())
-                                self.execute(self.gest_1_label.text())
-                                print('fist')
-                                start_time = time.time()
-                               
-
-                        for (x,y,w,h) in right_palm:
-                                self.execute(self.gest_2_label.text())
-                                print('palm')
-                                start_time = time.time()
-
-
-
-
-                        for (x,y,w,h) in point:
-                                self.execute(self.gest_3_label.text())
-                                print('point')
-                                start_time = time.time()
-                        
-
-                        for (x,y,w,h) in thumbdown:   
-                            print('thumbdown')
-                            self.execute(self.gest_4_label.text())
-                            start_time = time.time()
-
-
-                        
-        cap.release()    
-        cv2.destroyAllWindows()
+        print('baal')
+        if self.status  == "Stop":
+            self.status = "Start"
+            # gesture detection code
+            proc = Process(target= self.detectGesture)
+            proc.start()
+            proc.join()
+        else:   
+            self.status = "Stop"          
+            
 
 
 
@@ -538,12 +559,19 @@ class labelClickable(QDialog):
 if __name__ == '__main__':
     import sys
 
+    exists = os.path.isfile('../../rsc/gestures.txt')
+    if exists:
+        with open("../../rsc/gestures.txt", "r") as ins:
+            fist_gesture = ins.read()
+            palm_gesture = ins.read()
+            point_gesture = ins.read()
+            thumbDown_gesture = ins.read()
 
-    fist_gesture = ""
-    palm_gesture = ""
-    point_gesture = ""
-    thumbDown_gesture = ""
-
+    else:
+        fist_gesture = ''
+        palm_gesture = ''
+        point_gesture = ''
+        thumbDown_gesture = ''
 
     #haar cascades initializatoin
     right_h1_cascade=cv2.CascadeClassifier('../../rsc/haar_cascades/rpalm.xml') # right palm
@@ -569,4 +597,13 @@ if __name__ == '__main__':
     ventana = labelClickable()
     ventana.show()
 
+    print('asdasdasd')
+
+    newfile=open("../../rsc/gestures.txt","w")
+    newfile.write(palm_gesture)
+    newfile.write(fist_gesture)
+    newfile.write(point_gesture)
+    newfile.write(thumbDown_gesture)
+    newfile.close()
     sys.exit(aplicacion.exec_())
+

@@ -42,7 +42,7 @@ class Ui_Form(object):
 
     def print_info(self):
         #print("OK pressed")
-        newfile=open("appSelected.txt","w+")
+        newfile=open("../../rsc/appSelected.txt","w+")
         for i in range(0,len(self.x)):
             newfile.write(self.x[i])
             newfile.write("\n")
