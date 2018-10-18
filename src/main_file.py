@@ -18,20 +18,6 @@ from execute import execute
 
 
 
-#haar cascades initializatoin
-right_h1_cascade=cv2.CascadeClassifier('../rsc/haar_cascades/rpalm.xml') # right palm
-#hand_cascade = cv2.CascadeClassifier('heppu_handa.xml')
-#left_h1_cascade=cv2.CascadeClassifier('./haarCascades/lpalm.xml') #left palm
-#right_cascade=cv2.CascadeClassifier('./haarCascades/right.xml') #right direction
-#left_cascade=cv2.CascadeClassifier('left.xml') #left direction
-#finger_count_cascade = cv2.CascadeClassifier('finger_count.xml')
-#okay_cascade = cv2.CascadeClassifier('./haarCascades/ok.xml') # okay sign
-point_cascade = cv2.CascadeClassifier('../rsc/haar_cascades/point1.xml')
-#fin_cascade=cv2.CascadeClassifier('./haarCascades/fin_2.xml') 
-#hand_left_to_right_cascade = cv2.CascadeClassifier('./haarCascades/heppu_handb.xml')
-#hand_right_to_left_cascade = cv2.CascadeClassifier('./haarCascades/heppu_hands.xml')
-fist_cascade=cv2.CascadeClassifier('../rsc/haar_cascades/fist.xml') # fist
-thumbdown_cascade = cv2.CascadeClassifier('../rsc/haar_cascades/thumbdown.xml')
 
 #--------------------------------------------
 

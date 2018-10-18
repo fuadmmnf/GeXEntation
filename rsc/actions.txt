@@ -1,18 +1,9 @@
-left_mouse click	
+left_mouse click
 right_mouse click
-middle_mouse click
 scroll_up
 scroll_down
 scroll_left
 scroll_right
 page_up
 page_down
-zoom_in
-zoom_out
-refresh
 screenshot
-volume_up
-volume_down
-next_track
-prev_track
-play/pause

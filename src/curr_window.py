@@ -11,3 +11,4 @@ def getWindowName():
 
 	return window.get_wm_class()[1]
 
+
