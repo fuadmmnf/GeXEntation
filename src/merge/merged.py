@@ -10,7 +10,7 @@ import math
 import os
 import time
 import pyautogui
-#import keyboard
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import Qt, pyqtSignal, QTimer
@@ -27,9 +27,6 @@ class Ui_Form(object):
         self.pushButton = QtWidgets.QPushButton(Form)
         self.pushButton.setGeometry(QtCore.QRect(240, 270, 75, 23))
         self.pushButton.setObjectName("pushButton")
-        self.pushButton_2 = QtWidgets.QPushButton(Form)
-        self.pushButton_2.setGeometry(QtCore.QRect(320, 270, 75, 23))
-        self.pushButton_2.setObjectName("pushButton_2")
         self.listWidget = QtWidgets.QListWidget(Form)
         self.listWidget.setGeometry(QtCore.QRect(0, 0, 401, 261))
         self.listWidget.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
@@ -71,7 +68,6 @@ class Ui_Form(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.pushButton.setText(_translate("Form", "Ok"))
-        self.pushButton_2.setText(_translate("Form", "Cancel"))
         __sortingEnabled = self.listWidget.isSortingEnabled()
         self.listWidget.setSelectionMode(QtWidgets.QAbstractItemView.MultiSelection)
         self.listWidget.setSortingEnabled(False)
@@ -181,7 +177,7 @@ class labelClickable(QDialog):
 
 
 
-        self.button2 = QtWidgets.QPushButton('Exit', self)
+        self.button2 = QtWidgets.QPushButton('Minimize', self)
 #        self.button2.setStyleSheet("QPushButton{background:qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 #c2e59c, stop:1 #64b3f4); "
 #                                   "border-radius: 8px;font-size:13px;border:1 px solid black;}")
         self.button2.setStyleSheet("QPushButton{background:#4254f7;"
@@ -479,6 +475,22 @@ class labelClickable(QDialog):
             pyautogui.click( button = 'left' )
         elif str == 'right_mouse click':
             pyautogui.click( button = 'right' )
+        elif str == 'up':
+            pyautogui.press('up')
+        elif str == 'down':
+            pyautogui.press('down')
+        elif str == 'right':
+            pyautogui.hscroll(10)
+        elif str == 'scroll_left':
+            pyautogui.hscroll(-10)
+        elif str == 'page_up':
+            pyautogui.press('pgup')
+        elif str == 'page_down':
+            pyautogui.press('pgdn')
+        elif str == 'screenshot':
+            pyautogui.screenshot()
+        elif str == 'spacebar':
+            pyautogui.press('space')
         # elif str == 'middle_mouse click':
         #     pyautogui.click( button = 'middle' )
         elif str == 'scroll_up':
@@ -488,6 +500,7 @@ class labelClickable(QDialog):
         elif str == 'scroll_right':
             pyautogui.hscroll(10)
         elif str == 'scroll_left':
+<<<<<<< HEAD
             pyautogui.hscroll(-10)
         elif str == 'up':
             pyautogui.press('up')
@@ -497,6 +510,9 @@ class labelClickable(QDialog):
             pyautogui.press('pgup')
         elif str == 'page_down':
             pyautogui.press('pgdn')
+=======
+            pyautogui.hscroll(-10) 
+>>>>>>> 02b900921d1493b794f83d7f7d2c218d8ddec463
         elif str == 'zoom_out':
             pyautogui.keydown('shift')
             pyautogui.press('+')
@@ -507,11 +523,14 @@ class labelClickable(QDialog):
             pyautogui.keyup('shift')
         elif str == 'refresh':
             pyautogui.press('f5')
+<<<<<<< HEAD
         elif str == 'screenshot':
             from time import gmtime, strftime
             showtime = strftime("%Y-%m-%d%H:%M:%S", gmtime())
             print(showtime)
             pyautogui.screenshot('../../screenshots/'+showtime+'.jpg')
+=======
+>>>>>>> 02b900921d1493b794f83d7f7d2c218d8ddec463
         elif str == 'volume_up':
             pyautogui.press('volumeup')
         elif str == 'volume_down':

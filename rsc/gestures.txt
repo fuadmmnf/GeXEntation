@@ -2,3 +2,7 @@ turn_off
 screenshot
 left_mouse click
 right_mouse click
+up
+down
+screenshot
+spacebar
