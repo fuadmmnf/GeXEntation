@@ -1,9 +1,10 @@
 left_mouse click
 right_mouse click
-scroll_up
-scroll_down
-scroll_left
-scroll_right
+up
+down
+left
+right
+spacebar
 page_up
 page_down
 screenshot
