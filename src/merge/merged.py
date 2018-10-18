@@ -523,8 +523,10 @@ class labelClickable(QDialog):
         elif str == 'screenshot':
             from time import gmtime, strftime
             showtime = strftime("%Y-%m-%d%H:%M:%S", gmtime())
-            print(showtime)
+            #print(showtime)
             pyautogui.screenshot('../../screenshots/'+showtime+'.jpg')
+            from playsound import playsound
+            playsound('camera-shutter-click-01.wav')
         elif str == 'volume_up':
             pyautogui.press('volumeup')
         elif str == 'volume_down':
@@ -590,7 +592,7 @@ class labelClickable(QDialog):
 
             finish_time = time.time()
             start_time = -1
-            if(start_time==-1 or finish_time-start_time>=1):
+            if(start_time==-1 or finish_time-start_time>=2):
             
                     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
                     
