@@ -10,6 +10,8 @@ import math
 import os
 import time
 import pyautogui
+from playsound import playsound
+from threading import Thread
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QIcon, QPixmap
@@ -97,6 +99,7 @@ class labelClickable(QDialog):
         self.file=open('../../rsc/actions.txt','r+')
         self.temp= self.file.read()
         self.lines= self.temp.split("\n")
+        self.status = 'Stop'
         global appList
         self.x = appList
         self.gestureNum  = -1
@@ -524,7 +527,6 @@ class labelClickable(QDialog):
             showtime = strftime("%Y-%m-%d%H:%M:%S", gmtime())
             #print(showtime)
             pyautogui.screenshot('../../screenshots/'+showtime+'.jpg')
-            from playsound import playsound
             playsound('camera-shutter-click-01.wav')
         elif str == 'volume_up':
             pyautogui.press('volumeup')
@@ -553,7 +555,99 @@ class labelClickable(QDialog):
 
 
 
+    def func(self):
+        cap = cv2.VideoCapture(0)
+        start_time = -1 
+        finish_time = 0
+        isValid = False
+        while True:   
 
+            #if self.getWindowName() in self.x:
+            _, img=cap.read()
+            #cv2.imshow('Webcam',img)
+            
+            
+            # k=cv2.waitKey(10)
+            # if k==27:
+            #         break
+
+
+            finish_time = time.clock()
+        
+            #print(finish_time- start_time)
+
+            if(start_time==-1 or  (finish_time-start_time) >= 0.4 ):
+            
+                gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+                
+                
+
+                thumbdown=thumbdown_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,80))
+
+                if isValid:
+                    #point = point_cascade.detectMultiScale(gray,1.1,5)
+                    #fin=fin_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5,flags=0, minSize=(100,80))
+                    right_palm = right_h1_cascade.detectMultiScale(gray,1.1, 5)
+                    point=point_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,80))
+                    #hand = hand_cascade.detectMultiScale(gray,1.1, 5)
+                    #LtoR=hand_left_to_right_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
+                    #RtoL=hand_right_to_left_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
+                    #finger_count = finger_count_cascade.detectMultiScale(gray,1.1,5)
+                    #left_palm = left_h1_cascade.detectMultiScale(gray,1.1, 5)
+                    #right_dir = right_cascade.detectMultiScale(gray,1.1, 5)
+                    #left_dir = left_cascade.detectMultiScale(gray,1.1, 5)
+                    fist=fist_cascade.detectMultiScale(gray,1.1, 5)
+                    #fist=fist_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
+
+
+                    for (x,y,w,h) in fist:
+                        print('fist')
+                        # if self.gest_2_label.text() == 'turn_off':
+                        #     isValid = False
+                        self.execute(self.gest_2_label.text())
+                        start_time = time.clock()
+                           
+
+                    for (x,y,w,h) in right_palm:
+                        # if self.gest_1_label.text() == 'turn_off':
+                        #     isValid = False
+                        print('right palm')
+                        self.execute(self.gest_1_label.text())
+                        start_time = time.clock()
+
+
+
+
+                    for (x,y,w,h) in point:
+                        print('point')
+                        # if self.gest_3_label.text() == 'turn_off':
+                        #     isValid = False
+                        self.execute(self.gest_3_label.text())
+                        start_time = time.clock()
+                    
+
+                for (x,y,w,h) in thumbdown:   
+                    print('thumbsdown')                 
+                    if self.status == 'Stop':
+                        self.status = 'Start'
+                        isValid = True;
+                        playsound('activesound.wav')
+                        self.tray_icon.setIcon(QIcon('greenico.ico'))
+
+                    else:
+                        self.status = 'Stop'
+                        isValid = False
+                        playsound('pausesound.wav')
+                        self.tray_icon.setIcon(QIcon('pauseico.ico'))
+                    start_time = time.clock()
+
+
+
+                        
+        cap.release()    
+        cv2.destroyAllWindows()
+
+        #----------------------------
 
 
 
@@ -572,89 +666,8 @@ class labelClickable(QDialog):
         newfile.write(self.gest_4_label.text())
         newfile.close()
 
-
-        cap = cv2.VideoCapture(0)
-        start_time = -1 
-        finish_time = 0
-        isValid = True
-        while isValid:   
-
-            #if self.getWindowName() in self.x:
-            _, img=cap.read()
-            #cv2.imshow('Webcam',img)
-            
-            
-            k=cv2.waitKey(10)
-            if k==27:
-                    break
-
-
-            finish_time = time.time()
-            start_time = -1
-            if(start_time==-1 or finish_time-start_time>=2):
-            
-                    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-                    
-                    #point = point_cascade.detectMultiScale(gray,1.1,5)
-                    #fin=fin_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5,flags=0, minSize=(100,80))
-                    right_palm = right_h1_cascade.detectMultiScale(gray,1.1, 5)
-                    point=point_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,80))
-                    #hand = hand_cascade.detectMultiScale(gray,1.1, 5)
-                    #LtoR=hand_left_to_right_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
-                    #RtoL=hand_right_to_left_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
-                    #finger_count = finger_count_cascade.detectMultiScale(gray,1.1,5)
-                    #left_palm = left_h1_cascade.detectMultiScale(gray,1.1, 5)
-                    #right_dir = right_cascade.detectMultiScale(gray,1.1, 5)
-                    #left_dir = left_cascade.detectMultiScale(gray,1.1, 5)
-                    fist=fist_cascade.detectMultiScale(gray,1.1, 5)
-                    #fist=fist_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
-
-                    thumbdown=thumbdown_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,80))
-
-
-
-
-
-                    for (x,y,w,h) in fist:
-                        print(fist_gesture)
-                        if self.gest_2_label.text() == 'turn_off':
-                            isValid = False
-                        self.execute(self.gest_2_label.text())
-                        start_time = time.time()
-                           
-
-                    for (x,y,w,h) in right_palm:
-                        if self.gest_1_label.text() == 'turn_off':
-                            isValid = False
-                        print('right palm')
-                        self.execute(self.gest_1_label.text())
-                        start_time = time.time()
-
-
-
-
-                    for (x,y,w,h) in point:
-                        print('point')
-                        if self.gest_3_label.text() == 'turn_off':
-                            isValid = False
-                        self.execute(self.gest_3_label.text())
-                        start_time = time.time()
-                    
-
-                    for (x,y,w,h) in thumbdown:   
-                        print('thumbsdown')                 
-                        print(thumbDown_gesture)
-                        if self.gest_4_label.text() == 'turn_off':
-                            isValid = False
-                        self.execute(self.gest_4_label.text())
-                        start_time = time.time()
-
-
-                        
-        cap.release()    
-        cv2.destroyAllWindows()
-
-        #----------------------------
+        thread = Thread(target=self.func)
+        thread.start()
 
 
 

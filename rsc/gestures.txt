@@ -1,4 +1,4 @@
-turn_off
+screenshot
 down
-left_mouse click
+spacebar
 up
