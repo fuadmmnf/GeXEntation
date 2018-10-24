@@ -12,6 +12,7 @@ import time
 import pyautogui
 from playsound import playsound
 from threading import Thread
+import msvcrt
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QIcon, QPixmap
@@ -20,6 +21,63 @@ from PyQt5.QtWidgets import QApplication, QDialog, QLabel, QMessageBox,QComboBox
 tray_icon = None
 
 appList = []
+
+
+
+class Ui_Form2(object):
+
+    def setupUi(self, custom_input):
+        custom_input.setObjectName("Custom Input")
+        custom_input.resize(300,150)
+        self.pushButton = QtWidgets.QPushButton(custom_input)
+        self.pushButton.setGeometry(QtCore.QRect(160, 85, 75, 23))
+        self.pushButton.setObjectName("pushButton")
+        self.checkBox = QtWidgets.QCheckBox('Single Button', custom_input)
+        
+        self.checkBox.move(100, 25)
+        
+        self.checkBox2 = QtWidgets.QCheckBox('Hotkey', custom_input)
+        self.checkBox2.move(100, 45)
+        self.checkBox.stateChanged.connect(lambda:self.btnstate(self.checkBox,self.checkBox2))
+        #self.checkBox2.toggled.connect(lambda:self.btnstate(self.checkBox2,self.checkBox2))
+        self.checkBox2.stateChanged.connect(lambda:self.btnstate(self.checkBox2,self.checkBox))
+        self.le = QtWidgets.QLineEdit(custom_input)
+        self.le.move(100,65)
+
+        self.label=QLabel(custom_input)
+        self.label.move(100,105)
+        self.label.setText("Something")
+        
+        self.retranslateUi(custom_input)
+ 
+        
+
+
+        QtCore.QMetaObject.connectSlotsByName(custom_input)
+
+    
+    def retranslateUi(self, custom_input):
+        _translate = QtCore.QCoreApplication.translate
+        custom_input.setWindowTitle(_translate("custom_input", "Custom Input"))
+        self.pushButton.setText(_translate("custom_input", "Ok"))
+        
+    def btnstate(self,b,a):
+      if b.text() == "Single Button":
+         if b.isChecked() == True:
+            print (b.text()+" is selected")
+            a.setChecked(False)
+         else:
+            print (b.text()+" is deselected")
+				
+      if b.text() == "Hotkey":
+         if b.isChecked() == True:
+            print (b.text()+" is selected")
+            a.setChecked(False)
+         else:
+            print (b.text()+" is deselected")
+
+
+
 
 class Ui_Form(object):
 
@@ -90,7 +148,6 @@ class Ui_Form(object):
             self.listWidget.addItem(item)
             if self.str in appList:
                 self.listWidget.setCurrentItem(item)
-
 
 class labelClickable(QDialog):
     def __init__(self, parent=None):
@@ -265,6 +322,10 @@ class labelClickable(QDialog):
         
         if self.gestureNum == 1:
             palm_gesture = action.text()
+            if(palm_gesture=="custom_input"):
+            	{
+				self.ok()
+            	}
             self.gest_1_label.setText(palm_gesture)
         elif self.gestureNum == 2:
             fist_gesture = action.text()
@@ -277,8 +338,16 @@ class labelClickable(QDialog):
             self.gest_4_label.setText(thumbDown_gesture)
         
 
+    def ok(self):
+        self.window=QtWidgets.QWidget()
 
-
+        self.ui =Ui_Form2()
+        self.ui.setupUi(self.window)
+        
+        self.window.setWindowIcon(QIcon("icon.png"))
+        self.window.show()
+        self.ui.pushButton.clicked.connect(self.window.hide)
+        
 
     # def secondClick(self):
     #     QMessageBox.information(self, "2nd Gesture", "2nd Gesture was clicked")
