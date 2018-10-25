@@ -10,3 +10,5 @@ page_down
 screenshot
 scroll_up
 scroll_down
+turn_off
+custom_input
