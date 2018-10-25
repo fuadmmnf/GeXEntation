@@ -1,4 +1,4 @@
+left_mouse click
 screenshot
-down
-spacebar
+scroll_up
 up

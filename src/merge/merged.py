@@ -134,7 +134,7 @@ class labelClickable(QDialog):
         show_action = QAction("Show", self)
         quit_action = QAction("Exit", self)
         hide_action = QAction("Hide", self)
-        show_action.triggered.connect(self.show)
+        show_action.triggered.connect(self.showWindow)
         hide_action.triggered.connect(self.hide)
         quit_action.triggered.connect(qApp.quit)
         tray_menu = QMenu()
@@ -151,6 +151,12 @@ class labelClickable(QDialog):
 
         
         self.initUI()
+
+    def showWindow(self):
+        self.show()
+        thread = Thread(target=self.writeLabel)
+        thread.start()
+
 
     def initUI(self):
        
@@ -196,28 +202,28 @@ class labelClickable(QDialog):
         self.hidden_button.setToolTip("1st Gesture")
         self.hidden_button.setIcon(QtGui.QIcon('palm.png'))
         self.hidden_button.setIconSize(QtCore.QSize(120, 130))
-        self.hidden_button.setGeometry(50, 40, 120, 130)
+        self.hidden_button.setGeometry(50, 70, 120, 130)
         self.hidden_button.setStyleSheet(
             "QPushButton{background-color: transparent; border-style:outset; border-radius: 50px; border-width:0px;}::hover{"
             "background-color:white}::pressed{background-color: cyan}")        
         self.hidden_button.clicked.connect(self.manual)
 
         self.gest_1_label = QtWidgets.QLabel(palm_gesture, self)
-        self.gest_1_label.setGeometry(73,155,120,50)
+        self.gest_1_label.setGeometry(73,185,120,50)
 
         self.gest_1_label.setStyleSheet("QLabel{background:transparent;font-size:14px;}")
         self.hidden_button2 = QtWidgets.QPushButton('', self)
         self.hidden_button2.setCursor(Qt.PointingHandCursor)
         self.hidden_button2.setIcon(QtGui.QIcon('fist.png'))
         self.hidden_button2.setIconSize(QtCore.QSize(120, 130))
-        self.hidden_button2.setGeometry(180,40, 120, 130)
+        self.hidden_button2.setGeometry(180,70, 120, 130)
         self.hidden_button2.setStyleSheet(
             "QPushButton{background-color: transparent; border-style:outset;border-radius: 50px; border-width:0px;}::hover{"
             "background-color:white}::pressed{background-color: cyan}")
         self.hidden_button2.clicked.connect(self.manual_2)
 
         self.gest_2_label = QtWidgets.QLabel(fist_gesture, self)
-        self.gest_2_label.setGeometry(203, 155, 120, 50)
+        self.gest_2_label.setGeometry(203, 185, 120, 50)
         self.gest_2_label.setStyleSheet("QLabel{background:transparent;font-size:14px;}")
 
 
@@ -225,7 +231,7 @@ class labelClickable(QDialog):
         self.hidden_button3.setCursor(Qt.PointingHandCursor)
         self.hidden_button3.setIcon(QtGui.QIcon('thumbs_down.png'))
         self.hidden_button3.setIconSize(QtCore.QSize(120, 130))
-        self.hidden_button3.setGeometry(50, 200, 120, 130)
+        self.hidden_button3.setGeometry(50, 230, 120, 130)
         self.hidden_button3.setStyleSheet(
             "QPushButton{background-color: transparent; border-style:outset;border-radius: 50px; border-width:0px;}::hover{"
             "background-color:white}::pressed{background-color: cyan}")
@@ -233,7 +239,7 @@ class labelClickable(QDialog):
 
 
         self.gest_3_label = QtWidgets.QLabel(point_gesture, self)
-        self.gest_3_label.setGeometry(73,315, 120, 50)
+        self.gest_3_label.setGeometry(73,345, 120, 50)
         self.gest_3_label.setStyleSheet("QLabel{background:transparent;font-size:14px;}")
 
 
@@ -242,7 +248,7 @@ class labelClickable(QDialog):
         self.hidden_button4.setCursor(Qt.PointingHandCursor)
         self.hidden_button4.setIcon(QtGui.QIcon('loser.png'))
         self.hidden_button4.setIconSize(QtCore.QSize(120, 130))
-        self.hidden_button4.setGeometry(180, 200, 120, 130)
+        self.hidden_button4.setGeometry(180, 230, 120, 130)
         self.hidden_button4.setStyleSheet(
             "QPushButton{background-color: transparent; border-style:outset;border-radius: 50px; border-width:0px;}::hover{"
             "background-color:white}::pressed{background-color: cyan}")
@@ -250,15 +256,35 @@ class labelClickable(QDialog):
         self.hidden_button4.clicked.connect(self.manual_4)
 
         self.gest_4_label = QtWidgets.QLabel(thumbDown_gesture, self)
-        self.gest_4_label.setGeometry(203,315, 120, 50)
+        self.gest_4_label.setGeometry(203,345, 120, 50)
      
         self.gest_4_label.setStyleSheet("QLabel{background:transparent;font-size:14px;}")
+
+
+        self.titleLabel = QtWidgets.QLabel('', self)
+        self.titleLabel.setGeometry(180,15, 300, 50)
+     
+        self.titleLabel.setStyleSheet("QLabel{background:transparent;font-size:25px;}")
+        thread = Thread(target=self.writeLabel)
+        thread.start()
+
         #self.labelImagen.clicked.connect(self.Clic)
         #self.label_2.clicked.connect(self.secondClick)
         #self.label_3.clicked.connect(self.thirdClick)
         #self.label_4.clicked.connect(self.fourthClick)
 
     # ======================= FUNCTIONS ============================
+
+    def writeLabel(self):
+        self.titleLabel.setText('G')
+        time.sleep(0.4)
+        self.titleLabel.setText('GeX')
+        time.sleep(0.7)
+        self.titleLabel.setText('GeXEn')
+        time.sleep(0.4)
+        self.titleLabel.setText('GeXEntation')
+
+
 
     def Clic(self,action):
         #QMessageBox.information(self, "1st Gesture","1st Gesture was clicked")
@@ -529,7 +555,8 @@ class labelClickable(QDialog):
             pyautogui.screenshot('../../screenshots/'+showtime+'.jpg')
             playsound('camera-shutter-click-01.wav')
         elif str == 'volume_up':
-            pyautogui.press('volumeup')
+            pyautogui.keyDown('command')
+            pyautogui.press('up')
         elif str == 'volume_down':
             pyautogui.press('volumedown')
         elif str == 'next_track':
@@ -587,7 +614,7 @@ class labelClickable(QDialog):
                 
                 #point = point_cascade.detectMultiScale(gray,1.1,5)
                 #fin=fin_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5,flags=0, minSize=(100,80))
-                right_palm = right_h1_cascade.detectMultiScale(gray,1.1, 5)
+                right_palm = right_h1_cascade.detectMultiScale(gray, 1.1, 5)
                 point=point_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,80))
                 #hand = hand_cascade.detectMultiScale(gray,1.1, 5)
                 #LtoR=hand_left_to_right_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
@@ -622,7 +649,7 @@ class labelClickable(QDialog):
                     print('point')
                     # if self.gest_3_label.text() == 'turn_off':
                     #     isValid = False
-                    self.execute(self.gest_3_label.text())
+                    self.execute(self.gest_4_label.text())
                     start_time = time.clock()
                 
 
@@ -645,7 +672,7 @@ class labelClickable(QDialog):
                     print('thumbsdown')
                     # if self.gest_3_label.text() == 'turn_off':
                     #     isValid = False
-                    self.execute(self.gest_4_label.text())
+                    self.execute(self.gest_3_label.text())
                     start_time = time.clock()
                 
 
@@ -724,6 +751,7 @@ if __name__ == '__main__':
 
     #haar cascades initializatoin
     right_h1_cascade=cv2.CascadeClassifier('../../rsc/haar_cascades/rpalm.xml') # right palm
+
     #hand_cascade = cv2.CascadeClassifier('heppu_handa.xml')
     #left_h1_cascade=cv2.CascadeClassifier('./haarCascades/lpalm.xml') #left palm
     #right_cascade=cv2.CascadeClassifier('./haarCascades/right.xml') #right direction
