@@ -12,7 +12,7 @@ import time
 import pyautogui
 from playsound import playsound
 from threading import Thread
-import msvcrt
+#import msvcrt
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QIcon, QPixmap
@@ -38,9 +38,9 @@ class Ui_Form2(object):
         
         self.checkBox2 = QtWidgets.QCheckBox('Hotkey', custom_input)
         self.checkBox2.move(100, 45)
-        self.checkBox.stateChanged.connect(lambda:self.btnstate(self.checkBox,self.checkBox2))
+        self.checkBox.stateChanged.connect(lambda:self.btnstate(self.checkBox, self.checkBox2))
         #self.checkBox2.toggled.connect(lambda:self.btnstate(self.checkBox2,self.checkBox2))
-        self.checkBox2.stateChanged.connect(lambda:self.btnstate(self.checkBox2,self.checkBox))
+        self.checkBox2.stateChanged.connect(lambda:self.btnstate(self.checkBox2, self.checkBox))
         self.le = QtWidgets.QLineEdit(custom_input)
         self.le.move(100,65)
 
@@ -102,6 +102,9 @@ class Ui_Form(object):
 
 
         QtCore.QMetaObject.connectSlotsByName(Form)
+
+
+
     def on_change(self):
         global appList
         self.x = appList
@@ -157,6 +160,10 @@ class labelClickable(QDialog):
         self.temp= self.file.read()
         self.lines= self.temp.split("\n")
         self.status = 'Stop'
+        self.thumbDetect = False
+        self.palmDetect = False
+        self.pointDetect = False
+        self.fistDetect = False
         global appList
         self.x = appList
         self.gestureNum  = -1
@@ -650,6 +657,25 @@ class labelClickable(QDialog):
 
 
 
+    def detect(self):
+        self.thumbdown=thumbdown_cascade.detectMultiScale(self.gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,80))
+        self.thumbDetect = True
+
+
+    def detect_1(self):
+        self.right_palm = right_h1_cascade.detectMultiScale(self.gray, 1.1, 5)
+        self.palmDetect = True
+
+
+
+    def detect_2(self):
+        self.point=point_cascade.detectMultiScale(self.gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,80))
+        self.pointDetect = True
+
+
+    def detect_3(self):
+        self.fist=fist_cascade.detectMultiScale(self.gray,1.1, 5)
+        self.fistDetect = True
 
     def func(self):
         cap = cv2.VideoCapture(0)
@@ -674,17 +700,18 @@ class labelClickable(QDialog):
 
             if(start_time==-1 or  (finish_time-start_time) >= 0.4 ):
             
-                gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+                self.gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
                 
                 
-
-                thumbdown=thumbdown_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,80))
-
                 
+                self.thumbDetect = False
+                self.palmDetect = False
+                self.pointDetect = False
+                self.fistDetect = False
                 #point = point_cascade.detectMultiScale(gray,1.1,5)
                 #fin=fin_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5,flags=0, minSize=(100,80))
-                right_palm = right_h1_cascade.detectMultiScale(gray, 1.1, 5)
-                point=point_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,80))
+                
+                
                 #hand = hand_cascade.detectMultiScale(gray,1.1, 5)
                 #LtoR=hand_left_to_right_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
                 #RtoL=hand_right_to_left_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
@@ -692,11 +719,28 @@ class labelClickable(QDialog):
                 #left_palm = left_h1_cascade.detectMultiScale(gray,1.1, 5)
                 #right_dir = right_cascade.detectMultiScale(gray,1.1, 5)
                 #left_dir = left_cascade.detectMultiScale(gray,1.1, 5)
-                fist=fist_cascade.detectMultiScale(gray,1.1, 5)
+                
                 #fist=fist_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
 
 
-                for (x,y,w,h) in fist:
+                thread = Thread(target=self.detect)
+                thread.start()
+
+
+                thread_2 = Thread(target=self.detect_1)
+                thread_2.start()
+
+                thread_3 = Thread(target=self.detect_2)
+                thread_3.start()
+
+                thread_4 = Thread(target=self.detect_3)
+                thread_4.start()
+
+
+                while not (self.fistDetect and self.thumbDetect and self.pointDetect and self.palmDetect) :
+                    pass
+
+                for (x,y,w,h) in self.fist:
                     print('fist')
                     # if self.gest_2_label.text() == 'turn_off':
                     #     isValid = False
@@ -704,7 +748,7 @@ class labelClickable(QDialog):
                     start_time = time.clock()
                        
 
-                for (x,y,w,h) in right_palm:
+                for (x,y,w,h) in self.right_palm:
                     # if self.gest_1_label.text() == 'turn_off':
                     #     isValid = False
                     print('right palm')
@@ -714,7 +758,7 @@ class labelClickable(QDialog):
 
 
 
-                for (x,y,w,h) in point:
+                for (x,y,w,h) in self.point:
                     print('point')
                     # if self.gest_3_label.text() == 'turn_off':
                     #     isValid = False
@@ -737,7 +781,7 @@ class labelClickable(QDialog):
                 #         self.tray_icon.setIcon(QIcon('pauseico.ico'))
                 #     start_time = time.clock()
 
-                for (x,y,w,h) in thumbdown:
+                for (x,y,w,h) in self.thumbdown:
                     print('thumbsdown')
                     # if self.gest_3_label.text() == 'turn_off':
                     #     isValid = False
