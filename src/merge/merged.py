@@ -28,28 +28,50 @@ class Ui_Form2(object):
 
     def setupUi(self, custom_input):
         custom_input.setObjectName("Custom Input")
-        custom_input.resize(300,150)
+        custom_input.resize(200,150)
         self.pushButton = QtWidgets.QPushButton(custom_input)
-        self.pushButton.setGeometry(QtCore.QRect(160, 85, 75, 23))
+        self.pushButton.setGeometry(QtCore.QRect(60, 85, 75, 23))
         self.pushButton.setObjectName("pushButton")
-        self.checkBox = QtWidgets.QCheckBox('Single Button', custom_input)
+        #self.checkBox = QtWidgets.QCheckBox('Single Button', custom_input)
         
-        self.checkBox.move(100, 25)
+        #self.checkBox.move(100, 25)
         
-        self.checkBox2 = QtWidgets.QCheckBox('Hotkey', custom_input)
-        self.checkBox2.move(100, 45)
-        self.checkBox.stateChanged.connect(lambda:self.btnstate(self.checkBox, self.checkBox2))
+        # self.checkBox2 = QtWidgets.QCheckBox('Hotkey', custom_input)
+        # self.checkBox2.move(100, 45)
+        #self.checkBox.stateChanged.connect(lambda:self.btnstate(self.checkBox, self.checkBox2))
         #self.checkBox2.toggled.connect(lambda:self.btnstate(self.checkBox2,self.checkBox2))
-        self.checkBox2.stateChanged.connect(lambda:self.btnstate(self.checkBox2, self.checkBox))
+        # self.checkBox2.stateChanged.connect(lambda:self.btnstate(self.checkBox2, self.checkBox))
         self.le = QtWidgets.QLineEdit(custom_input)
-        self.le.move(100,65)
-	self.strList=['Space','Alt','Ctrl','Ctrl+C','Ctrl+V']
+        self.le.move(30,50)
+        self.strList= ['\t', '\n', '\r', ' ', '!', '"', '#', '$', '%', '&', "'", '(',
+                        ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7',
+                        '8', '9', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`',
+                        'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
+                        'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~',
+                        'accept', 'add', 'alt', 'altleft', 'altright', 'apps', 'backspace',
+                        'browserback', 'browserfavorites', 'browserforward', 'browserhome',
+                        'browserrefresh', 'browsersearch', 'browserstop', 'capslock', 'clear',
+                        'convert', 'ctrl', 'ctrlleft', 'ctrlright', 'decimal', 'del', 'delete',
+                        'divide', 'down', 'end', 'enter', 'esc', 'escape', 'execute', 'f1', 'f10',
+                        'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'f17', 'f18', 'f19', 'f2', 'f20',
+                        'f21', 'f22', 'f23', 'f24', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8', 'f9',
+                        'final', 'fn', 'hanguel', 'hangul', 'hanja', 'help', 'home', 'insert', 'junja',
+                        'kana', 'kanji', 'launchapp1', 'launchapp2', 'launchmail',
+                        'launchmediaselect', 'left', 'modechange', 'multiply', 'nexttrack',
+                        'nonconvert', 'num0', 'num1', 'num2', 'num3', 'num4', 'num5', 'num6',
+                        'num7', 'num8', 'num9', 'numlock', 'pagedown', 'pageup', 'pause', 'pgdn',
+                        'pgup', 'playpause', 'prevtrack', 'print', 'printscreen', 'prntscrn',
+                        'prtsc', 'prtscr', 'return', 'right', 'scrolllock', 'select', 'separator',
+                        'shift', 'shiftleft', 'shiftright', 'sleep', 'space', 'stop', 'subtract', 'tab',
+                        'up', 'volumedown', 'volumemute', 'volumeup', 'win', 'winleft', 'winright', 'yen',
+                        'command', 'option', 'optionleft', 'optionright'
+                      ]
         self.completer = QCompleter(self.strList, self.le)
         self.le.setCompleter(self.completer)
 
         self.label=QLabel(custom_input)
-        self.label.move(100,105)
-        self.label.setText("Something")
+        self.label.move(80,105)
+        self.label.setText("")
         
         self.retranslateUi(custom_input)
  
