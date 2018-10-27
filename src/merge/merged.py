@@ -84,6 +84,7 @@ class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(400, 300)
+        self.x = []
         self.pushButton = QtWidgets.QPushButton(Form)
         self.pushButton.setGeometry(QtCore.QRect(240, 270, 75, 23))
         self.pushButton.setObjectName("pushButton")
@@ -107,14 +108,15 @@ class Ui_Form(object):
 
     def on_change(self):
         global appList
-        self.x = appList
+        #self.x = appList
+        self.x = []
         for item in self.listWidget.selectedItems():
-            self.x.append(item.text())
+            (self.x).append(item.text())
 
        
         appList = self.x
 #        print([x.append(item.text()) for item in self.listWidget.selectedItems()])
-        # print(self.x)
+        #print(self.x)
         # print(appList)
     def print_info(self):
         pass
@@ -141,16 +143,23 @@ class Ui_Form(object):
         #self.listWidget.addItems(lines)
         global appList
         print(appList)
+
+        
+
+
         for i in range (0,len(lines)):
 
             item = QtWidgets.QListWidgetItem()
             self.str = lines[i].replace('.desktop', '')
             item.setText(self.str)
-            #item.setFlags(item.flags() | QtCore.Qt.ItemIsUserCheckable)
-            #item.setCheckState(QtCore.Qt.Unchecked)
             self.listWidget.addItem(item)
-            if self.str in appList:
-                self.listWidget.setCurrentItem(item)
+
+
+
+        for i in appList:
+            matching_items = self.listWidget.findItems(i, Qt.MatchExactly)
+            for item in matching_items:
+                item.setSelected(True)
 
 class labelClickable(QDialog):
     def __init__(self, parent=None):
@@ -165,7 +174,7 @@ class labelClickable(QDialog):
         self.pointDetect = False
         self.fistDetect = False
         global appList
-        self.x = appList
+        self.x = []
         self.gestureNum  = -1
 
 
@@ -511,13 +520,13 @@ class labelClickable(QDialog):
 
 
     def app_supported(self):
-        # file=open('../../rsc/applications.txt','r+')
-        # x = str()
-        # x = file.read()
-        # lines = x.split("\n")
+        file=open('../../rsc/applications.txt','r+')
+        x = str()
+        x = file.read()
+        lines = x.split("\n")
 
-        # toolMenu = QtWidgets.QMenu()
-        # toolMenu.setStyleSheet("QMenu { menu-scrollable: 1; }")
+        toolMenu = QtWidgets.QMenu()
+        toolMenu.setStyleSheet("QMenu { menu-scrollable: 1; }")
         # for i in range(0,len(lines)):
         #     checkBox = QtWidgets.QCheckBox(lines[i], toolMenu)
         #     checkableAction = QtWidgets.QWidgetAction(toolMenu)
@@ -531,16 +540,16 @@ class labelClickable(QDialog):
         self.ui.pushButton.clicked.connect(self.window.hide)
 
 
-        # for i in range(3):
-        #     checkBox = QtWidgets.QCheckBox(str(i), toolMenu)
-        #     checkableAction = QtWidgets.QWidgetAction(toolMenu)
-        #     checkableAction.setDefaultWidget(checkBox)
-        #     toolMenu.addAction(checkableAction)
+        for i in range(0,len(lines)):
+            checkBox = QtWidgets.QCheckBox(lines[i], toolMenu)
+            checkableAction = QtWidgets.QWidgetAction(toolMenu)
+            checkableAction.setDefaultWidget(checkBox)
+            toolMenu.addAction(checkableAction)
 
     def closeEvent(self, event):
-        
-        newfile=open("../../rsc/appSelected.txt","w")
-        for line in self.x:
+        global appList
+        newfile=open("../../rsc/appSelected.txt","w+")
+        for line in appList:
             newfile.write(line + '\n')
 
         newfile.close()
@@ -682,118 +691,119 @@ class labelClickable(QDialog):
         start_time = -1 
         finish_time = 0
         isValid = False
+        global appList
         while self.status == 'Start':   
 
-            #if self.getWindowName() in self.x:
-            _, img=cap.read()
-            #cv2.imshow('Webcam',img)
+            if self.getWindowName() in appList:
+                _, img=cap.read()
+                #cv2.imshow('Webcam',img)
+                
+                
+                # k=cv2.waitKey(10)
+                # if k==27:
+                #         break
+
+
+                finish_time = time.clock()
             
-            
-            # k=cv2.waitKey(10)
-            # if k==27:
-            #         break
+                #print(finish_time- start_time)
 
-
-            finish_time = time.clock()
-        
-            #print(finish_time- start_time)
-
-            if(start_time==-1 or  (finish_time-start_time) >= 0.4 ):
-            
-                self.gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+                if(start_time==-1 or  (finish_time-start_time) >= 0.4 ):
                 
-                
-                
-                self.thumbDetect = False
-                self.palmDetect = False
-                self.pointDetect = False
-                self.fistDetect = False
-                #point = point_cascade.detectMultiScale(gray,1.1,5)
-                #fin=fin_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5,flags=0, minSize=(100,80))
-                
-                
-                #hand = hand_cascade.detectMultiScale(gray,1.1, 5)
-                #LtoR=hand_left_to_right_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
-                #RtoL=hand_right_to_left_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
-                #finger_count = finger_count_cascade.detectMultiScale(gray,1.1,5)
-                #left_palm = left_h1_cascade.detectMultiScale(gray,1.1, 5)
-                #right_dir = right_cascade.detectMultiScale(gray,1.1, 5)
-                #left_dir = left_cascade.detectMultiScale(gray,1.1, 5)
-                
-                #fist=fist_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
+                    self.gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+                    
+                    
+                    
+                    self.thumbDetect = False
+                    self.palmDetect = False
+                    self.pointDetect = False
+                    self.fistDetect = False
+                    #point = point_cascade.detectMultiScale(gray,1.1,5)
+                    #fin=fin_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5,flags=0, minSize=(100,80))
+                    
+                    
+                    #hand = hand_cascade.detectMultiScale(gray,1.1, 5)
+                    #LtoR=hand_left_to_right_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
+                    #RtoL=hand_right_to_left_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
+                    #finger_count = finger_count_cascade.detectMultiScale(gray,1.1,5)
+                    #left_palm = left_h1_cascade.detectMultiScale(gray,1.1, 5)
+                    #right_dir = right_cascade.detectMultiScale(gray,1.1, 5)
+                    #left_dir = left_cascade.detectMultiScale(gray,1.1, 5)
+                    
+                    #fist=fist_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
 
 
-                thread = Thread(target=self.detect)
-                thread.start()
+                    thread = Thread(target=self.detect)
+                    thread.start()
 
 
-                thread_2 = Thread(target=self.detect_1)
-                thread_2.start()
+                    thread_2 = Thread(target=self.detect_1)
+                    thread_2.start()
 
-                thread_3 = Thread(target=self.detect_2)
-                thread_3.start()
+                    thread_3 = Thread(target=self.detect_2)
+                    thread_3.start()
 
-                thread_4 = Thread(target=self.detect_3)
-                thread_4.start()
-
-
-                while not (self.fistDetect and self.thumbDetect and self.pointDetect and self.palmDetect) :
-                    pass
-
-                for (x,y,w,h) in self.fist:
-                    print('fist')
-                    # if self.gest_2_label.text() == 'turn_off':
-                    #     isValid = False
-                    self.execute(self.gest_2_label.text())
-                    start_time = time.clock()
-                       
-
-                for (x,y,w,h) in self.right_palm:
-                    # if self.gest_1_label.text() == 'turn_off':
-                    #     isValid = False
-                    print('right palm')
-                    self.execute(self.gest_1_label.text())
-                    start_time = time.clock()
+                    thread_4 = Thread(target=self.detect_3)
+                    thread_4.start()
 
 
+                    while not (self.fistDetect and self.thumbDetect and self.pointDetect and self.palmDetect) :
+                        pass
+
+                    for (x,y,w,h) in self.fist:
+                        print('fist')
+                        # if self.gest_2_label.text() == 'turn_off':
+                        #     isValid = False
+                        self.execute(self.gest_2_label.text())
+                        start_time = time.clock()
+                           
+
+                    for (x,y,w,h) in self.right_palm:
+                        # if self.gest_1_label.text() == 'turn_off':
+                        #     isValid = False
+                        print('right palm')
+                        self.execute(self.gest_1_label.text())
+                        start_time = time.clock()
 
 
-                for (x,y,w,h) in self.point:
-                    print('point')
-                    # if self.gest_3_label.text() == 'turn_off':
-                    #     isValid = False
-                    self.execute(self.gest_4_label.text())
-                    start_time = time.clock()
-                
 
-                # for (x,y,w,h) in thumbdown:   
-                #     print('thumbsdown')                 
-                #     if self.status == 'Stop':
-                #         self.status = 'Start'
-                #         isValid = True;
-                #         playsound('activesound.wav')
-                #         self.tray_icon.setIcon(QIcon('greenico.ico'))
 
-                #     else:
-                #         self.status = 'Stop'
-                #         isValid = False
-                #         playsound('pausesound.wav')
-                #         self.tray_icon.setIcon(QIcon('pauseico.ico'))
-                #     start_time = time.clock()
+                    for (x,y,w,h) in self.point:
+                        print('point')
+                        # if self.gest_3_label.text() == 'turn_off':
+                        #     isValid = False
+                        self.execute(self.gest_4_label.text())
+                        start_time = time.clock()
+                    
 
-                for (x,y,w,h) in self.thumbdown:
-                    print('thumbsdown')
-                    # if self.gest_3_label.text() == 'turn_off':
-                    #     isValid = False
-                    self.execute(self.gest_3_label.text())
-                    start_time = time.clock()
-                
+                    # for (x,y,w,h) in thumbdown:   
+                    #     print('thumbsdown')                 
+                    #     if self.status == 'Stop':
+                    #         self.status = 'Start'
+                    #         isValid = True;
+                    #         playsound('activesound.wav')
+                    #         self.tray_icon.setIcon(QIcon('greenico.ico'))
 
-                        
-        cap.release()    
-        cv2.destroyAllWindows()
+                    #     else:
+                    #         self.status = 'Stop'
+                    #         isValid = False
+                    #         playsound('pausesound.wav')
+                    #         self.tray_icon.setIcon(QIcon('pauseico.ico'))
+                    #     start_time = time.clock()
 
-        #----------------------------
+                    for (x,y,w,h) in self.thumbdown:
+                        print('thumbsdown')
+                        # if self.gest_3_label.text() == 'turn_off':
+                        #     isValid = False
+                        self.execute(self.gest_3_label.text())
+                        start_time = time.clock()
+                    
+
+                            
+            cap.release()    
+            cv2.destroyAllWindows()
+
+            #----------------------------
 
 
 

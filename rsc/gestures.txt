@@ -1,4 +1,4 @@
-left_mouse click
-screenshot
+right
+page_up
 scroll_up
 up
