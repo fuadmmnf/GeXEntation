@@ -196,7 +196,7 @@ class labelClickable(QDialog):
         self.setWindowIcon(QIcon("icon.png"))
         self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint)
         self.setFixedSize(500, 400)
-        self.setStyleSheet("*{background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 #2193b0, stop:1 #79f1fc);}")
+        self.setStyleSheet("*{background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 #000000, stop:1 #808080);}")
 
 
 
@@ -235,7 +235,7 @@ class labelClickable(QDialog):
        
         self.button = QtWidgets.QPushButton('Start', self)
 
-        self.button.setStyleSheet("QPushButton{background:#4254f7;"
+        self.button.setStyleSheet("QPushButton{background:#006699;"
                                    "border-radius: 8px;font-size:13px;"
                                    "border-bottom-style: solid;border-width: 4px;border-color:#070f59;"
                                    "}::hover {  background-color: #070f59;color:white;  border-color:#070f59 ;border-width: 2px; top: 2px;}")
@@ -247,7 +247,7 @@ class labelClickable(QDialog):
         #self.button1.setStyleSheet("QPushButton{ border: 1px "
         #                           "#; border-radius: 4.5px;font-size:20px;}")
 
-        self.button1.setStyleSheet("QPushButton{background:#4254f7;"
+        self.button1.setStyleSheet("QPushButton{background:#006699;"
                                    "border-radius: 8px;font-size:13px;"
                                    "border-bottom-style: solid;border-width: 4px;border-color:#070f59;"
                                    "}::hover {  background-color: #070f59;color:white;  border-color:#070f59 ;border-width: 2px; top: 2px;}")
@@ -261,7 +261,7 @@ class labelClickable(QDialog):
         self.button2 = QtWidgets.QPushButton('Minimize', self)
 #        self.button2.setStyleSheet("QPushButton{background:qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 #c2e59c, stop:1 #64b3f4); "
 #                                   "border-radius: 8px;font-size:13px;border:1 px solid black;}")
-        self.button2.setStyleSheet("QPushButton{background:#4254f7;"
+        self.button2.setStyleSheet("QPushButton{background:#006699;"
                                    "border-radius: 8px;font-size:13px;"
                                    "border-bottom-style: solid;border-width: 4px;border-color:#070f59;"
                                    "}::hover {  background-color: #070f59;color:white;  border-color:#070f59 ;border-width: 2px; top: 2px;}")
@@ -284,7 +284,7 @@ class labelClickable(QDialog):
         self.gest_1_label = QtWidgets.QLabel(palm_gesture, self)
         self.gest_1_label.setGeometry(73,185,120,50)
 
-        self.gest_1_label.setStyleSheet("QLabel{background:transparent;font-size:14px;}")
+        self.gest_1_label.setStyleSheet("QLabel{background:transparent;font-size:14px;color:white;}")
         self.hidden_button2 = QtWidgets.QPushButton('', self)
         self.hidden_button2.setCursor(Qt.PointingHandCursor)
         self.hidden_button2.setIcon(QtGui.QIcon('fist.png'))
@@ -297,7 +297,7 @@ class labelClickable(QDialog):
 
         self.gest_2_label = QtWidgets.QLabel(fist_gesture, self)
         self.gest_2_label.setGeometry(203, 185, 120, 50)
-        self.gest_2_label.setStyleSheet("QLabel{background:transparent;font-size:14px;}")
+        self.gest_2_label.setStyleSheet("QLabel{background:transparent;font-size:14px;color:white;}")
 
 
         self.hidden_button3 = QtWidgets.QPushButton('', self)
@@ -313,7 +313,7 @@ class labelClickable(QDialog):
 
         self.gest_3_label = QtWidgets.QLabel(point_gesture, self)
         self.gest_3_label.setGeometry(73,345, 120, 50)
-        self.gest_3_label.setStyleSheet("QLabel{background:transparent;font-size:14px;}")
+        self.gest_3_label.setStyleSheet("QLabel{background:transparent;font-size:14px;color:white;}")
 
 
 
@@ -331,13 +331,13 @@ class labelClickable(QDialog):
         self.gest_4_label = QtWidgets.QLabel(thumbDown_gesture, self)
         self.gest_4_label.setGeometry(203,345, 120, 50)
      
-        self.gest_4_label.setStyleSheet("QLabel{background:transparent;font-size:14px;}")
+        self.gest_4_label.setStyleSheet("QLabel{background:transparent;font-size:14px;color:white;}")
 
 
         self.titleLabel = QtWidgets.QLabel('', self)
         self.titleLabel.setGeometry(180,15, 300, 50)
      
-        self.titleLabel.setStyleSheet("QLabel{background:transparent;font-size:25px;}")
+        self.titleLabel.setStyleSheet("QLabel{background:transparent;font-size:25px;color:#2d5986}")
         thread = Thread(target=self.writeLabel)
         thread.start()
 
@@ -693,8 +693,8 @@ class labelClickable(QDialog):
         isValid = False
         global appList
         while self.status == 'Start':   
-
-            if self.getWindowName() in appList:
+            #print(self.getWindowName())
+            if self.getWindowName().lower() in appList:
                 _, img=cap.read()
                 #cv2.imshow('Webcam',img)
                 
@@ -800,10 +800,11 @@ class labelClickable(QDialog):
                     
 
                             
-            cap.release()    
-            cv2.destroyAllWindows()
-
-            #----------------------------
+        cap.release()    
+        cv2.destroyAllWindows()
+        playsound('pausesound.wav')
+        self.tray_icon.setIcon(QIcon("ico.ico"))
+        #----------------------------
 
 
 
@@ -815,6 +816,8 @@ class labelClickable(QDialog):
         if self.status == 'Stop':
             self.status = 'Start'
             self.button.setText('Stop')
+            playsound('activesound.wav')
+            self.tray_icon.setIcon(QIcon('greenico.ico'))
             newfile=open("../../rsc/gestures.txt","w")
             newfile.write(self.gest_1_label.text())
             newfile.write('\n')
@@ -830,6 +833,8 @@ class labelClickable(QDialog):
 
         else :
             self.button.setText('Start')
+            playsound('pausesound.wav')
+            self.tray_icon.setIcon(QIcon("ico.ico"))
             self.status = 'Stop'
 
 
