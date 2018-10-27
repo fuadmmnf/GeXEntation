@@ -17,7 +17,7 @@ from threading import Thread
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import Qt, pyqtSignal, QTimer
-from PyQt5.QtWidgets import QApplication, QDialog, QLabel, QMessageBox,QComboBox,QHBoxLayout,QActionGroup,QSystemTrayIcon,QStyle,QAction,qApp,QMenu
+from PyQt5.QtWidgets import QApplication, QCompleter, QDialog, QLabel, QMessageBox,QComboBox,QHBoxLayout,QActionGroup,QSystemTrayIcon,QStyle,QAction,qApp,QMenu
 tray_icon = None
 
 appList = []
@@ -43,6 +43,9 @@ class Ui_Form2(object):
         self.checkBox2.stateChanged.connect(lambda:self.btnstate(self.checkBox2, self.checkBox))
         self.le = QtWidgets.QLineEdit(custom_input)
         self.le.move(100,65)
+	self.strList=['Space','Alt','Ctrl','Ctrl+C','Ctrl+V']
+        self.completer = QCompleter(self.strList, self.le)
+        self.le.setCompleter(self.completer)
 
         self.label=QLabel(custom_input)
         self.label.move(100,105)
