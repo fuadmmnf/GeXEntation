@@ -1,5 +1,3 @@
-# Autor:  Saif Kamal Chowdhury
-
 import Xlib
 import Xlib.display
 import time
@@ -17,7 +15,7 @@ from threading import Thread
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import Qt, pyqtSignal, QTimer
-from PyQt5.QtWidgets import QApplication, QCompleter, QDialog, QLabel, QMessageBox,QComboBox,QHBoxLayout,QActionGroup,QSystemTrayIcon,QStyle,QAction,qApp,QMenu
+from PyQt5.QtWidgets import QApplication, QDialog, QLabel, QMessageBox,QComboBox,QHBoxLayout,QActionGroup,QSystemTrayIcon,QStyle,QAction,qApp,QMenu
 tray_icon = None
 
 appList = []
@@ -28,50 +26,25 @@ class Ui_Form2(object):
 
     def setupUi(self, custom_input):
         custom_input.setObjectName("Custom Input")
-        custom_input.resize(200,150)
+        custom_input.resize(300,150)
         self.pushButton = QtWidgets.QPushButton(custom_input)
-        self.pushButton.setGeometry(QtCore.QRect(60, 85, 75, 23))
+        self.pushButton.setGeometry(QtCore.QRect(160, 85, 75, 23))
         self.pushButton.setObjectName("pushButton")
-        #self.checkBox = QtWidgets.QCheckBox('Single Button', custom_input)
+        self.checkBox = QtWidgets.QCheckBox('Single Button', custom_input)
         
-        #self.checkBox.move(100, 25)
+        self.checkBox.move(100, 25)
         
-        # self.checkBox2 = QtWidgets.QCheckBox('Hotkey', custom_input)
-        # self.checkBox2.move(100, 45)
-        #self.checkBox.stateChanged.connect(lambda:self.btnstate(self.checkBox, self.checkBox2))
+        self.checkBox2 = QtWidgets.QCheckBox('Hotkey', custom_input)
+        self.checkBox2.move(100, 45)
+        self.checkBox.stateChanged.connect(lambda:self.btnstate(self.checkBox, self.checkBox2))
         #self.checkBox2.toggled.connect(lambda:self.btnstate(self.checkBox2,self.checkBox2))
-        # self.checkBox2.stateChanged.connect(lambda:self.btnstate(self.checkBox2, self.checkBox))
+        self.checkBox2.stateChanged.connect(lambda:self.btnstate(self.checkBox2, self.checkBox))
         self.le = QtWidgets.QLineEdit(custom_input)
-        self.le.move(30,50)
-        self.strList= ['\t', '\n', '\r', ' ', '!', '"', '#', '$', '%', '&', "'", '(',
-                        ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7',
-                        '8', '9', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`',
-                        'a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
-                        'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~',
-                        'accept', 'add', 'alt', 'altleft', 'altright', 'apps', 'backspace',
-                        'browserback', 'browserfavorites', 'browserforward', 'browserhome',
-                        'browserrefresh', 'browsersearch', 'browserstop', 'capslock', 'clear',
-                        'convert', 'ctrl', 'ctrlleft', 'ctrlright', 'decimal', 'del', 'delete',
-                        'divide', 'down', 'end', 'enter', 'esc', 'escape', 'execute', 'f1', 'f10',
-                        'f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'f17', 'f18', 'f19', 'f2', 'f20',
-                        'f21', 'f22', 'f23', 'f24', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8', 'f9',
-                        'final', 'fn', 'hanguel', 'hangul', 'hanja', 'help', 'home', 'insert', 'junja',
-                        'kana', 'kanji', 'launchapp1', 'launchapp2', 'launchmail',
-                        'launchmediaselect', 'left', 'modechange', 'multiply', 'nexttrack',
-                        'nonconvert', 'num0', 'num1', 'num2', 'num3', 'num4', 'num5', 'num6',
-                        'num7', 'num8', 'num9', 'numlock', 'pagedown', 'pageup', 'pause', 'pgdn',
-                        'pgup', 'playpause', 'prevtrack', 'print', 'printscreen', 'prntscrn',
-                        'prtsc', 'prtscr', 'return', 'right', 'scrolllock', 'select', 'separator',
-                        'shift', 'shiftleft', 'shiftright', 'sleep', 'space', 'stop', 'subtract', 'tab',
-                        'up', 'volumedown', 'volumemute', 'volumeup', 'win', 'winleft', 'winright', 'yen',
-                        'command', 'option', 'optionleft', 'optionright'
-                      ]
-        self.completer = QCompleter(self.strList, self.le)
-        self.le.setCompleter(self.completer)
+        self.le.move(100,65)
 
         self.label=QLabel(custom_input)
-        self.label.move(80,105)
-        self.label.setText("")
+        self.label.move(100,105)
+        self.label.setText("Something")
         
         self.retranslateUi(custom_input)
  
@@ -93,7 +66,7 @@ class Ui_Form2(object):
             a.setChecked(False)
          else:
             print (b.text()+" is deselected")
-				
+                
       if b.text() == "Hotkey":
          if b.isChecked() == True:
             print (b.text()+" is selected")
@@ -109,7 +82,6 @@ class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(400, 300)
-        self.x = []
         self.pushButton = QtWidgets.QPushButton(Form)
         self.pushButton.setGeometry(QtCore.QRect(240, 270, 75, 23))
         self.pushButton.setObjectName("pushButton")
@@ -133,15 +105,14 @@ class Ui_Form(object):
 
     def on_change(self):
         global appList
-        #self.x = appList
-        self.x = []
+        self.x = appList
         for item in self.listWidget.selectedItems():
-            (self.x).append(item.text())
+            self.x.append(item.text())
 
        
         appList = self.x
 #        print([x.append(item.text()) for item in self.listWidget.selectedItems()])
-        #print(self.x)
+        # print(self.x)
         # print(appList)
     def print_info(self):
         pass
@@ -168,23 +139,16 @@ class Ui_Form(object):
         #self.listWidget.addItems(lines)
         global appList
         print(appList)
-
-        
-
-
         for i in range (0,len(lines)):
 
             item = QtWidgets.QListWidgetItem()
             self.str = lines[i].replace('.desktop', '')
             item.setText(self.str)
+            #item.setFlags(item.flags() | QtCore.Qt.ItemIsUserCheckable)
+            #item.setCheckState(QtCore.Qt.Unchecked)
             self.listWidget.addItem(item)
-
-
-
-        for i in appList:
-            matching_items = self.listWidget.findItems(i, Qt.MatchExactly)
-            for item in matching_items:
-                item.setSelected(True)
+            if self.str in appList:
+                self.listWidget.setCurrentItem(item)
 
 class labelClickable(QDialog):
     def __init__(self, parent=None):
@@ -199,7 +163,7 @@ class labelClickable(QDialog):
         self.pointDetect = False
         self.fistDetect = False
         global appList
-        self.x = []
+        self.x = appList
         self.gestureNum  = -1
 
 
@@ -221,7 +185,7 @@ class labelClickable(QDialog):
         self.setWindowIcon(QIcon("icon.png"))
         self.setWindowFlags(Qt.WindowCloseButtonHint | Qt.MSWindowsFixedSizeDialogHint)
         self.setFixedSize(500, 400)
-        self.setStyleSheet("*{background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 #000000, stop:1 #808080);}")
+        self.setStyleSheet("*{background: qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 #2193b0, stop:1 #79f1fc);}")
 
 
 
@@ -260,7 +224,7 @@ class labelClickable(QDialog):
        
         self.button = QtWidgets.QPushButton('Start', self)
 
-        self.button.setStyleSheet("QPushButton{background:#006699;"
+        self.button.setStyleSheet("QPushButton{background:#4254f7;"
                                    "border-radius: 8px;font-size:13px;"
                                    "border-bottom-style: solid;border-width: 4px;border-color:#070f59;"
                                    "}::hover {  background-color: #070f59;color:white;  border-color:#070f59 ;border-width: 2px; top: 2px;}")
@@ -272,7 +236,7 @@ class labelClickable(QDialog):
         #self.button1.setStyleSheet("QPushButton{ border: 1px "
         #                           "#; border-radius: 4.5px;font-size:20px;}")
 
-        self.button1.setStyleSheet("QPushButton{background:#006699;"
+        self.button1.setStyleSheet("QPushButton{background:#4254f7;"
                                    "border-radius: 8px;font-size:13px;"
                                    "border-bottom-style: solid;border-width: 4px;border-color:#070f59;"
                                    "}::hover {  background-color: #070f59;color:white;  border-color:#070f59 ;border-width: 2px; top: 2px;}")
@@ -286,7 +250,7 @@ class labelClickable(QDialog):
         self.button2 = QtWidgets.QPushButton('Minimize', self)
 #        self.button2.setStyleSheet("QPushButton{background:qlineargradient( x1:0 y1:0, x2:1 y2:0, stop:0 #c2e59c, stop:1 #64b3f4); "
 #                                   "border-radius: 8px;font-size:13px;border:1 px solid black;}")
-        self.button2.setStyleSheet("QPushButton{background:#006699;"
+        self.button2.setStyleSheet("QPushButton{background:#4254f7;"
                                    "border-radius: 8px;font-size:13px;"
                                    "border-bottom-style: solid;border-width: 4px;border-color:#070f59;"
                                    "}::hover {  background-color: #070f59;color:white;  border-color:#070f59 ;border-width: 2px; top: 2px;}")
@@ -309,7 +273,7 @@ class labelClickable(QDialog):
         self.gest_1_label = QtWidgets.QLabel(palm_gesture, self)
         self.gest_1_label.setGeometry(73,185,120,50)
 
-        self.gest_1_label.setStyleSheet("QLabel{background:transparent;font-size:14px;color:white;}")
+        self.gest_1_label.setStyleSheet("QLabel{background:transparent;font-size:14px;}")
         self.hidden_button2 = QtWidgets.QPushButton('', self)
         self.hidden_button2.setCursor(Qt.PointingHandCursor)
         self.hidden_button2.setIcon(QtGui.QIcon('fist.png'))
@@ -322,7 +286,7 @@ class labelClickable(QDialog):
 
         self.gest_2_label = QtWidgets.QLabel(fist_gesture, self)
         self.gest_2_label.setGeometry(203, 185, 120, 50)
-        self.gest_2_label.setStyleSheet("QLabel{background:transparent;font-size:14px;color:white;}")
+        self.gest_2_label.setStyleSheet("QLabel{background:transparent;font-size:14px;}")
 
 
         self.hidden_button3 = QtWidgets.QPushButton('', self)
@@ -338,7 +302,7 @@ class labelClickable(QDialog):
 
         self.gest_3_label = QtWidgets.QLabel(point_gesture, self)
         self.gest_3_label.setGeometry(73,345, 120, 50)
-        self.gest_3_label.setStyleSheet("QLabel{background:transparent;font-size:14px;color:white;}")
+        self.gest_3_label.setStyleSheet("QLabel{background:transparent;font-size:14px;}")
 
 
 
@@ -356,13 +320,13 @@ class labelClickable(QDialog):
         self.gest_4_label = QtWidgets.QLabel(thumbDown_gesture, self)
         self.gest_4_label.setGeometry(203,345, 120, 50)
      
-        self.gest_4_label.setStyleSheet("QLabel{background:transparent;font-size:14px;color:white;}")
+        self.gest_4_label.setStyleSheet("QLabel{background:transparent;font-size:14px;}")
 
 
         self.titleLabel = QtWidgets.QLabel('', self)
         self.titleLabel.setGeometry(180,15, 300, 50)
      
-        self.titleLabel.setStyleSheet("QLabel{background:transparent;font-size:25px;color:#2d5986}")
+        self.titleLabel.setStyleSheet("QLabel{background:transparent;font-size:25px;}")
         thread = Thread(target=self.writeLabel)
         thread.start()
 
@@ -390,9 +354,9 @@ class labelClickable(QDialog):
         if self.gestureNum == 1:
             palm_gesture = action.text()
             if(palm_gesture=="custom_input"):
-            	{
-				self.ok()
-            	}
+                {
+                self.ok()
+                }
             self.gest_1_label.setText(palm_gesture)
         elif self.gestureNum == 2:
             fist_gesture = action.text()
@@ -545,13 +509,13 @@ class labelClickable(QDialog):
 
 
     def app_supported(self):
-        file=open('../../rsc/applications.txt','r+')
-        x = str()
-        x = file.read()
-        lines = x.split("\n")
+        # file=open('../../rsc/applications.txt','r+')
+        # x = str()
+        # x = file.read()
+        # lines = x.split("\n")
 
-        toolMenu = QtWidgets.QMenu()
-        toolMenu.setStyleSheet("QMenu { menu-scrollable: 1; }")
+        # toolMenu = QtWidgets.QMenu()
+        # toolMenu.setStyleSheet("QMenu { menu-scrollable: 1; }")
         # for i in range(0,len(lines)):
         #     checkBox = QtWidgets.QCheckBox(lines[i], toolMenu)
         #     checkableAction = QtWidgets.QWidgetAction(toolMenu)
@@ -565,16 +529,16 @@ class labelClickable(QDialog):
         self.ui.pushButton.clicked.connect(self.window.hide)
 
 
-        for i in range(0,len(lines)):
-            checkBox = QtWidgets.QCheckBox(lines[i], toolMenu)
-            checkableAction = QtWidgets.QWidgetAction(toolMenu)
-            checkableAction.setDefaultWidget(checkBox)
-            toolMenu.addAction(checkableAction)
+        # for i in range(3):
+        #     checkBox = QtWidgets.QCheckBox(str(i), toolMenu)
+        #     checkableAction = QtWidgets.QWidgetAction(toolMenu)
+        #     checkableAction.setDefaultWidget(checkBox)
+        #     toolMenu.addAction(checkableAction)
 
     def closeEvent(self, event):
-        global appList
-        newfile=open("../../rsc/appSelected.txt","w+")
-        for line in appList:
+        
+        newfile=open("../../rsc/appSelected.txt","w")
+        for line in self.x:
             newfile.write(line + '\n')
 
         newfile.close()
@@ -716,119 +680,117 @@ class labelClickable(QDialog):
         start_time = -1 
         finish_time = 0
         isValid = False
-        global appList
         while self.status == 'Start':   
-            #print(self.getWindowName())
-            if self.getWindowName().lower() in appList:
-                _, img=cap.read()
-                #cv2.imshow('Webcam',img)
-                
-                
-                # k=cv2.waitKey(10)
-                # if k==27:
-                #         break
 
-
-                finish_time = time.clock()
+            #if self.getWindowName() in self.x:
+            _, img=cap.read()
+            #cv2.imshow('Webcam',img)
             
-                #print(finish_time- start_time)
+            
+            # k=cv2.waitKey(10)
+            # if k==27:
+            #         break
 
-                if(start_time==-1 or  (finish_time-start_time) >= 0.4 ):
+
+            finish_time = time.clock()
+        
+            #print(finish_time- start_time)
+
+            if(start_time==-1 or  (finish_time-start_time) >= 0.4 ):
+            
+                self.gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
                 
-                    self.gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-                    
-                    
-                    
-                    self.thumbDetect = False
-                    self.palmDetect = False
-                    self.pointDetect = False
-                    self.fistDetect = False
-                    #point = point_cascade.detectMultiScale(gray,1.1,5)
-                    #fin=fin_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5,flags=0, minSize=(100,80))
-                    
-                    
-                    #hand = hand_cascade.detectMultiScale(gray,1.1, 5)
-                    #LtoR=hand_left_to_right_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
-                    #RtoL=hand_right_to_left_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
-                    #finger_count = finger_count_cascade.detectMultiScale(gray,1.1,5)
-                    #left_palm = left_h1_cascade.detectMultiScale(gray,1.1, 5)
-                    #right_dir = right_cascade.detectMultiScale(gray,1.1, 5)
-                    #left_dir = left_cascade.detectMultiScale(gray,1.1, 5)
-                    
-                    #fist=fist_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
+                
+                
+                self.thumbDetect = False
+                self.palmDetect = False
+                self.pointDetect = False
+                self.fistDetect = False
+                #point = point_cascade.detectMultiScale(gray,1.1,5)
+                #fin=fin_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5,flags=0, minSize=(100,80))
+                
+                
+                #hand = hand_cascade.detectMultiScale(gray,1.1, 5)
+                #LtoR=hand_left_to_right_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
+                #RtoL=hand_right_to_left_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
+                #finger_count = finger_count_cascade.detectMultiScale(gray,1.1,5)
+                #left_palm = left_h1_cascade.detectMultiScale(gray,1.1, 5)
+                #right_dir = right_cascade.detectMultiScale(gray,1.1, 5)
+                #left_dir = left_cascade.detectMultiScale(gray,1.1, 5)
+                
+                #fist=fist_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3,flags=0, minSize=(100,150))
 
 
-                    thread = Thread(target=self.detect)
-                    thread.start()
+                thread = Thread(target=self.detect)
+                thread.start()
 
 
-                    thread_2 = Thread(target=self.detect_1)
-                    thread_2.start()
+                thread_2 = Thread(target=self.detect_1)
+                thread_2.start()
 
-                    thread_3 = Thread(target=self.detect_2)
-                    thread_3.start()
+                thread_3 = Thread(target=self.detect_2)
+                thread_3.start()
 
-                    thread_4 = Thread(target=self.detect_3)
-                    thread_4.start()
+                thread_4 = Thread(target=self.detect_3)
+                thread_4.start()
 
 
-                    while not (self.fistDetect and self.thumbDetect and self.pointDetect and self.palmDetect) :
-                        pass
+                while not (self.fistDetect and self.thumbDetect and self.pointDetect and self.palmDetect) :
+                    pass
 
-                    for (x,y,w,h) in self.fist:
-                        print('fist')
-                        # if self.gest_2_label.text() == 'turn_off':
-                        #     isValid = False
-                        self.execute(self.gest_2_label.text())
-                        start_time = time.clock()
-                           
+                for (x,y,w,h) in self.fist:
+                    print('fist')
+                    # if self.gest_2_label.text() == 'turn_off':
+                    #     isValid = False
+                    self.execute(self.gest_2_label.text())
+                    start_time = time.clock()
+                       
 
-                    for (x,y,w,h) in self.right_palm:
-                        # if self.gest_1_label.text() == 'turn_off':
-                        #     isValid = False
-                        print('right palm')
-                        self.execute(self.gest_1_label.text())
-                        start_time = time.clock()
+                for (x,y,w,h) in self.right_palm:
+                    # if self.gest_1_label.text() == 'turn_off':
+                    #     isValid = False
+                    print('right palm')
+                    self.execute(self.gest_1_label.text())
+                    start_time = time.clock()
 
 
 
 
-                    for (x,y,w,h) in self.point:
-                        print('point')
-                        # if self.gest_3_label.text() == 'turn_off':
-                        #     isValid = False
-                        self.execute(self.gest_4_label.text())
-                        start_time = time.clock()
-                    
+                for (x,y,w,h) in self.point:
+                    print('point')
+                    # if self.gest_3_label.text() == 'turn_off':
+                    #     isValid = False
+                    self.execute(self.gest_4_label.text())
+                    start_time = time.clock()
+                
 
-                    # for (x,y,w,h) in thumbdown:   
-                    #     print('thumbsdown')                 
-                    #     if self.status == 'Stop':
-                    #         self.status = 'Start'
-                    #         isValid = True;
-                    #         playsound('activesound.wav')
-                    #         self.tray_icon.setIcon(QIcon('greenico.ico'))
+                # for (x,y,w,h) in thumbdown:   
+                #     print('thumbsdown')                 
+                #     if self.status == 'Stop':
+                #         self.status = 'Start'
+                #         isValid = True;
+                #         playsound('activesound.wav')
+                #         self.tray_icon.setIcon(QIcon('greenico.ico'))
 
-                    #     else:
-                    #         self.status = 'Stop'
-                    #         isValid = False
-                    #         playsound('pausesound.wav')
-                    #         self.tray_icon.setIcon(QIcon('pauseico.ico'))
-                    #     start_time = time.clock()
+                #     else:
+                #         self.status = 'Stop'
+                #         isValid = False
+                #         playsound('pausesound.wav')
+                #         self.tray_icon.setIcon(QIcon('pauseico.ico'))
+                #     start_time = time.clock()
 
-                    for (x,y,w,h) in self.thumbdown:
-                        print('thumbsdown')
-                        # if self.gest_3_label.text() == 'turn_off':
-                        #     isValid = False
-                        self.execute(self.gest_3_label.text())
-                        start_time = time.clock()
-                    
+                for (x,y,w,h) in self.thumbdown:
+                    print('thumbsdown')
+                    # if self.gest_3_label.text() == 'turn_off':
+                    #     isValid = False
+                    self.execute(self.gest_3_label.text())
+                    start_time = time.clock()
+                
 
-                            
+                        
         cap.release()    
         cv2.destroyAllWindows()
-        playsound('pausesound.wav')
-        self.tray_icon.setIcon(QIcon("ico.ico"))
+
         #----------------------------
 
 
@@ -841,8 +803,6 @@ class labelClickable(QDialog):
         if self.status == 'Stop':
             self.status = 'Start'
             self.button.setText('Stop')
-            playsound('activesound.wav')
-            self.tray_icon.setIcon(QIcon('greenico.ico'))
             newfile=open("../../rsc/gestures.txt","w")
             newfile.write(self.gest_1_label.text())
             newfile.write('\n')
@@ -858,8 +818,6 @@ class labelClickable(QDialog):
 
         else :
             self.button.setText('Start')
-            playsound('pausesound.wav')
-            self.tray_icon.setIcon(QIcon("ico.ico"))
             self.status = 'Stop'
 
 

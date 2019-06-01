@@ -30,6 +30,7 @@ def execute(str):
 
 	if str == 'left_mouse click':
 		pyautogui.click( button = 'left' )
+		print('kam hoise')
 	elif str == 'right_mouse click':
 		pyautogui.click( button = 'right' )
 	elif str == 'middle_mouse click':

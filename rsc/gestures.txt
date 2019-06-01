@@ -1,4 +1,4 @@
-right
-page_up
-scroll_up
+down
 up
+up
+screenshot

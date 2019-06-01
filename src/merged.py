@@ -36,10 +36,8 @@ class Ui_Form(object):
         self.retranslateUi(Form)
 
         self.pushButton.clicked.connect(self.print_info)
-
-
-
         QtCore.QMetaObject.connectSlotsByName(Form)
+        
     def on_change(self):
         self.x=[]
         for item in self.listWidget.selectedItems():
@@ -367,6 +365,7 @@ class labelClickable(QDialog):
     def startWeb(self):
 
         # gesture detection code
+        print('hi')
         cap = cv2.VideoCapture(0)
         start_time = -1 
         finish_time = 0
@@ -408,11 +407,13 @@ class labelClickable(QDialog):
 
                         for (x,y,w,h) in fist:
                                 print('fist')
+                                execute('page_up')
                                 start_time = time.time()
                                
 
                         for (x,y,w,h) in right_palm:
                                 print('right palm')
+                                execute('page_down')
                                 start_time = time.time()
 
 
